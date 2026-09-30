@@ -36,17 +36,29 @@
     wireVisibleCards(env);
   }
 
-  function releaseTag(env) {
+  // Tag contract (see docs/decisions/github-releases-sole-feed.md on the source
+  // repo): latest-* tags are the electron-updater feed and stay signed-only.
+  // Unsigned Windows QA builds live on the non-feed tag qa-win-manual; they are
+  // manual downloads and are never polled by the client.
+  function releaseTag(platform, env) {
+    if (platform === "windows" && env === "qa") {
+      return "qa-win-manual";
+    }
     return "latest-" + env;
   }
+
+  // Windows builds for these envs are distributed on the private source repo
+  // only, so the public site has nothing to serve — say so instead of linking
+  // a tag that will 404 for visitors.
+  var WIN_PRIVATE_ENVS = ["preuat", "uat"];
 
   function versionFromAssetName(name) {
     var match = /OneForma-modern-(.+)\.(dmg|exe)/i.exec(name || "");
     return match ? match[1] : "";
   }
 
-  function fetchRelease(env) {
-    var tag = releaseTag(env);
+  function fetchRelease(platform, env) {
+    var tag = releaseTag(platform, env);
     return fetch(
       "https://api.github.com/repos/" + RELEASES_REPO + "/releases/tags/" + tag,
       { headers: { Accept: "application/vnd.github+json" } }
@@ -77,8 +89,23 @@
     var button = card.querySelector("[data-download-button]");
     var versionEl = card.querySelector("[data-version-line]");
     var envEl = card.querySelector("[data-env-banner]");
-    var tag = releaseTag(env);
+    var tag = releaseTag(platform, env);
     var fallback = "https://github.com/" + RELEASES_REPO + "/releases/tag/" + tag;
+
+    if (platform === "windows" && WIN_PRIVATE_ENVS.indexOf(env) !== -1) {
+      if (versionEl) {
+        versionEl.textContent = "Not published for Windows on this channel · " + platformLabel;
+      }
+      if (button) {
+        button.removeAttribute("href");
+        button.setAttribute("aria-disabled", "true");
+      }
+      if (envEl) {
+        envEl.textContent = env.toUpperCase() + " Windows builds are internal — ask the release owner";
+        envEl.classList.add("is-visible");
+      }
+      return;
+    }
 
     if (envEl) {
       if (env !== "prod") {
@@ -96,9 +123,10 @@
     }
     if (button) {
       button.href = fallback;
+      button.removeAttribute("aria-disabled");
     }
 
-    fetchRelease(env)
+    fetchRelease(platform, env)
       .then(function (data) {
         if (!data) {
           return;
@@ -106,6 +134,15 @@
         var ext = platform === "mac" ? ".dmg" : ".exe";
         var asset = pickAsset(data.assets, ext);
         if (!asset) {
+          // Tag exists but carries nothing for this platform (e.g. prod
+          // Windows before the signing gate opens): no dead button.
+          if (versionEl) {
+            versionEl.textContent = "Not available yet · " + platformLabel;
+          }
+          if (button) {
+            button.removeAttribute("href");
+            button.setAttribute("aria-disabled", "true");
+          }
           return;
         }
         var version = versionFromAssetName(asset.name);
