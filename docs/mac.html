@@ -3,194 +3,95 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Install OneForma on Mac</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #1c2430;
-      --muted: #5c6b7a;
-      --line: #e3e8ee;
-      --paper: #f5f7fa;
-      --card: #fff;
-      --green: #1f7a4d;
-      --green-ink: #0f5132;
-      --note: #f3faf6;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font: 17px/1.5 "Segoe UI", Helvetica, Arial, sans-serif;
-    }
-    main {
-      max-width: 40rem;
-      margin: 0 auto;
-      padding: 2.5rem 1.25rem 3rem;
-    }
-    .kicker {
-      margin: 0 0 0.25rem;
-      color: var(--green);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    h1 {
-      margin: 0 0 0.5rem;
-      font-size: 2rem;
-      line-height: 1.2;
-    }
-    .lead { margin: 0 0 1.25rem; color: var(--muted); }
-    .note {
-      margin: 0 0 1.5rem;
-      padding: 0.9rem 1rem;
-      background: var(--note);
-      border: 1px solid #cfe8da;
-      border-radius: 10px;
-    }
-    .note strong { color: var(--green-ink); }
-    a { color: var(--green); }
-    .actions { margin: 0 0 0.4rem; }
-    .button {
-      display: inline-block;
-      padding: 0.75rem 1.15rem;
-      background: var(--green);
-      color: #fff;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .button:hover { background: #196340; }
-    .file, .release-link {
-      margin: 0.35rem 0 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-    .release-link { margin-bottom: 1.75rem; word-break: break-all; }
-    ol {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    li {
-      margin: 0 0 1rem;
-      padding: 0.9rem 1rem 0.9rem 3.4rem;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      position: relative;
-    }
-    li h2 {
-      margin: 0 0 0.2rem;
-      font-size: 1.05rem;
-    }
-    li p { margin: 0; }
-    .num {
-      position: absolute;
-      left: 0.9rem;
-      top: 0.95rem;
-      width: 1.6rem;
-      height: 1.6rem;
-      border-radius: 999px;
-      background: var(--green);
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: 700;
-      line-height: 1.6rem;
-      text-align: center;
-    }
-    .older {
-      margin-top: 0.5rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    .older h2 {
-      margin: 0 0 0.25rem;
-      color: var(--ink);
-      font-size: 1rem;
-    }
-    .older p { margin: 0; }
-  </style>
+  <title>OneForma - Download for Mac</title>
+  <link rel="stylesheet" href="download.css">
 </head>
 <body>
-  <main>
-    <p class="kicker">OneForma</p>
-    <h1>💻 Install on Mac</h1>
-    <p class="lead">Download the app, move it into Applications, open it, and sign in.</p>
+  <main class="download-page">
+    <section class="top-section">
+      <img
+        class="top-section__text"
+        src="./assets/hero-oneforma.svg"
+        alt="Install OneForma to start your task."
+      />
+      <div class="system-download-cards system-download-cards--single">
+        <article class="system-download-card" data-platform="mac">
+          <img class="system-download-card__icon" src="./assets/ios-icon.svg" alt="Mac OS">
+          <h2 class="system-download-card__title">Mac OS</h2>
+          <p class="system-download-card__version" data-version-line>Loading… · macOS 12+ · Universal</p>
+          <p class="system-download-card__env" data-env-banner></p>
+          <a class="system-download-card__button" data-download-button href="#">DOWNLOAD THE DMG</a>
+          <ul class="system-download-card__tips">
+            <li>macOS Monterey 12 or later</li>
+            <li>Apple Silicon and Intel supported</li>
+            <li>Sign in with your OneForma account after launch</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-    <aside class="note">
-      <strong>✅ Use the release marked Latest.</strong>
-      That row has a green Latest label and the title OneForma modern.
-      Skip any row with a yellow Pre-release label. Those builds are for internal testing.
-    </aside>
+    <section class="setup-section">
+      <div class="setup-section__inner">
+        <a class="back-home" href="index.html">← All platforms</a>
+        <h2 class="setup-section__title">How to set up on Mac</h2>
+        <div class="setup-section__content">
+          <img
+            class="setup-section__image"
+            src="./assets/setup-bg.png"
+            alt="OneForma installation guide"
+          >
+          <div class="setup-section__guide">
+            <div class="setup-guide-panels">
+              <div class="setup-guide-panel is-active" data-setup-guide-panel="mac">
+                <div class="setup-guide-panel__body">
+                  <div class="setup-guide-panel__steps">
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle1.svg" alt="Step 1">
+                    <div class="setup-guide-panel__step-line"></div>
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle2.svg" alt="Step 2">
+                    <div class="setup-guide-panel__step-line"></div>
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle3.svg" alt="Step 3">
+                  </div>
+                  <div class="setup-guide-panel__texts">
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Download the DMG</h3>
+                      <p class="setup-guide-panel__step-desc">Use the button above to download the official disk image.</p>
+                    </div>
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Install the app</h3>
+                      <p class="setup-guide-panel__step-desc">Open the DMG and drag <strong>OneForma</strong> into the Applications folder.</p>
+                    </div>
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Launch and sign in</h3>
+                      <p class="setup-guide-panel__step-desc">Open OneForma from Applications and sign in with your OneForma account.</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="setup-guide-panel__notice">
+                  If macOS blocks the first launch, open <strong>System Settings → Privacy &amp; Security</strong> and choose <strong>Open Anyway</strong>.
+                  For macOS 10.13–11, use a <a href="https://github.com/centific-cn/OneformaClient-releases/releases">legacy</a> build.
+                  Need Windows? <a href="windows.html">Windows install guide</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <p class="actions">
-      <a id="download" class="button" href="https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-prod">⬇️ Download for Mac</a>
-    </p>
-    <p id="filename" class="file">💿 Disk image on the Latest release (OneForma modern).</p>
-    <p class="release-link">
-      Release:
-      <a href="https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-prod">github.com/centific-cn/OneformaClient-releases/releases/tag/latest-prod</a>
-    </p>
-
-    <ol>
-      <li>
-        <span class="num">1</span>
-        <h2>💿 Download</h2>
-        <p>Use the button above. It saves a disk image named <strong>OneForma-modern-&lt;version&gt;.dmg</strong>.</p>
-      </li>
-      <li>
-        <span class="num">2</span>
-        <h2>📂 Move it to Applications</h2>
-        <p>Open the disk image. Drag <strong>OneForma</strong> onto the <strong>Applications</strong> folder.</p>
-      </li>
-      <li>
-        <span class="num">3</span>
-        <h2>💻 Open OneForma</h2>
-        <p>Open <strong>OneForma</strong> from Applications. If macOS asks whether to open it, choose Open. If macOS says it cannot check the app, open <strong>System Settings → Privacy &amp; Security</strong>, scroll to Security, click <strong>Open Anyway</strong>, and enter your Mac login password. You can eject the disk image after that.</p>
-      </li>
-      <li>
-        <span class="num">4</span>
-        <h2>🔑 Sign in</h2>
-        <p>Sign in with your OneForma account.</p>
-      </li>
-    </ol>
-
-    <section class="older">
-      <h2>🖥️ Older macOS</h2>
-      <p>
-        This download is for macOS 12 or later.
-        For macOS 10.13 through 11, open the
-        <a href="https://github.com/centific-cn/OneformaClient-releases/releases">releases page</a>
-        and choose the release titled <strong>OneForma legacy</strong>.
-        Leave Pre-release rows alone.
-      </p>
+        <div class="env-channel" data-env-selector>
+          <p class="env-channel__label">Download channel</p>
+          <div class="env-channel__buttons" role="group" aria-label="Download channel">
+            <button type="button" class="env-channel__btn is-active" data-env-option="prod" aria-pressed="true">Production</button>
+            <button type="button" class="env-channel__btn" data-env-option="qa" aria-pressed="false">QA</button>
+            <button type="button" class="env-channel__btn" data-env-option="preuat" aria-pressed="false">Pre-UAT</button>
+            <button type="button" class="env-channel__btn" data-env-option="uat" aria-pressed="false">UAT</button>
+          </div>
+          <p class="env-channel__hint">Internal channels stay selected in this browser until you choose Production again.</p>
+        </div>
+      </div>
     </section>
   </main>
+  <script src="download.js"></script>
   <script>
-    (function () {
-      var page = "https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-prod";
-      var api = "https://api.github.com/repos/centific-cn/OneformaClient-releases/releases/tags/latest-prod";
-      var allowed = "https://github.com/centific-cn/OneformaClient-releases/releases/download/";
-      var button = document.getElementById("download");
-      var filename = document.getElementById("filename");
-      fetch(api, { headers: { Accept: "application/vnd.github+json" } })
-        .then(function (res) { return res.ok ? res.json() : null; })
-        .then(function (data) {
-          if (!data || !data.assets) return;
-          var dmg = data.assets.find(function (asset) {
-            return asset.name && asset.name.endsWith(".dmg") && asset.browser_download_url &&
-              asset.browser_download_url.indexOf(allowed) === 0;
-          });
-          if (!dmg) return;
-          button.href = dmg.browser_download_url;
-          filename.textContent = "💿 " + dmg.name;
-        })
-        .catch(function () {
-          button.href = page;
-        });
-    })();
+    OneformaDownload.initPage();
   </script>
 </body>
 </html>

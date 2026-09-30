@@ -3,187 +3,94 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Install OneForma on Windows</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #1c2430;
-      --muted: #5c6b7a;
-      --line: #e3e8ee;
-      --paper: #f5f7fa;
-      --card: #fff;
-      --green: #1f7a4d;
-      --green-ink: #0f5132;
-      --note: #f3faf6;
-      --warn: #8a5a00;
-      --warn-note: #fff8e8;
-      --warn-line: #f0dca8;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font: 17px/1.5 "Segoe UI", Helvetica, Arial, sans-serif;
-    }
-    main {
-      max-width: 40rem;
-      margin: 0 auto;
-      padding: 2.5rem 1.25rem 3rem;
-    }
-    .kicker {
-      margin: 0 0 0.25rem;
-      color: var(--green);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    h1 {
-      margin: 0 0 0.5rem;
-      font-size: 2rem;
-      line-height: 1.2;
-    }
-    .lead { margin: 0 0 1.25rem; color: var(--muted); }
-    .note {
-      margin: 0 0 1.5rem;
-      padding: 0.9rem 1rem;
-      background: var(--note);
-      border: 1px solid #cfe8da;
-      border-radius: 10px;
-    }
-    .note strong { color: var(--green-ink); }
-    .warn {
-      margin: 0 0 1.5rem;
-      padding: 0.9rem 1rem;
-      background: var(--warn-note);
-      border: 1px solid var(--warn-line);
-      border-radius: 10px;
-    }
-    .warn strong { color: var(--warn); }
-    a { color: var(--green); }
-    .actions { margin: 0 0 0.4rem; }
-    .button {
-      display: inline-block;
-      padding: 0.75rem 1.15rem;
-      background: var(--green);
-      color: #fff;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .button:hover { background: #196340; }
-    .file, .release-link {
-      margin: 0.35rem 0 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-    .release-link { margin-bottom: 1.75rem; word-break: break-all; }
-    ol {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    li {
-      margin: 0 0 1rem;
-      padding: 0.9rem 1rem 0.9rem 3.4rem;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      position: relative;
-    }
-    li h2 {
-      margin: 0 0 0.2rem;
-      font-size: 1.05rem;
-    }
-    li p { margin: 0; }
-    .num {
-      position: absolute;
-      left: 0.9rem;
-      top: 0.95rem;
-      width: 1.6rem;
-      height: 1.6rem;
-      border-radius: 999px;
-      background: var(--green);
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: 700;
-      line-height: 1.6rem;
-      text-align: center;
-    }
-  </style>
+  <title>OneForma - Download for Windows</title>
+  <link rel="stylesheet" href="download.css">
 </head>
 <body>
-  <main>
-    <p class="kicker">OneForma</p>
-    <h1>🪟 Install on Windows</h1>
-    <p class="lead">Download the installer, run it, open OneForma, and sign in.</p>
+  <main class="download-page">
+    <section class="top-section">
+      <img
+        class="top-section__text"
+        src="./assets/hero-oneforma.svg"
+        alt="Install OneForma to start your task."
+      />
+      <div class="system-download-cards system-download-cards--single">
+        <article class="system-download-card" data-platform="windows">
+          <img class="system-download-card__icon" src="./assets/windows-icon.svg" alt="Windows">
+          <h2 class="system-download-card__title">Windows</h2>
+          <p class="system-download-card__version" data-version-line>Loading… · Windows 10/11 · 64-bit</p>
+          <p class="system-download-card__env" data-env-banner></p>
+          <a class="system-download-card__button" data-download-button href="#">DOWNLOAD THE INSTALLER</a>
+          <ul class="system-download-card__tips">
+            <li>Windows 10 or Windows 11</li>
+            <li>Run the installer from File Explorer</li>
+            <li>Approve SmartScreen or security prompts if shown</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-    <aside class="note">
-      <strong>✅ After installing, sign in with your OneForma account.</strong>
-      Once you see the signed-in home screen, the trial is working — nothing else to test.
-    </aside>
+    <section class="setup-section">
+      <div class="setup-section__inner">
+        <a class="back-home" href="index.html">← All platforms</a>
+        <h2 class="setup-section__title">How to set up on Windows</h2>
+        <div class="setup-section__content">
+          <img
+            class="setup-section__image"
+            src="./assets/setup-bg.png"
+            alt="OneForma installation guide"
+          >
+          <div class="setup-section__guide">
+            <div class="setup-guide-panels">
+              <div class="setup-guide-panel is-active" data-setup-guide-panel="windows">
+                <div class="setup-guide-panel__body">
+                  <div class="setup-guide-panel__steps">
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle1.svg" alt="Step 1">
+                    <div class="setup-guide-panel__step-line"></div>
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle2.svg" alt="Step 2">
+                    <div class="setup-guide-panel__step-line"></div>
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle3.svg" alt="Step 3">
+                  </div>
+                  <div class="setup-guide-panel__texts">
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Download the installer</h3>
+                      <p class="setup-guide-panel__step-desc">Use the button above to download the official .exe installer.</p>
+                    </div>
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Run the setup</h3>
+                      <p class="setup-guide-panel__step-desc">Double-click the installer. If Windows shows a blue SmartScreen screen, choose <strong>More info</strong> then <strong>Run anyway</strong> when instructed by your team.</p>
+                    </div>
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Launch and sign in</h3>
+                      <p class="setup-guide-panel__step-desc">Open OneForma from the Start menu or desktop shortcut and sign in.</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="setup-guide-panel__notice">
+                  If Windows Defender or company security software asks for confirmation, verify the publisher and allow the installation.
+                  Need Mac? <a href="mac.html">Mac install guide</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <p class="actions">
-      <a id="download" class="button" href="https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-qa">⬇️ Download for Windows</a>
-    </p>
-    <p id="filename" class="file">💿 Installer on the latest release (OneForma-modern-&lt;version&gt;.exe).</p>
-    <p class="release-link">
-      Release:
-      <a href="https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-qa">github.com/centific-cn/OneformaClient-releases/releases/tag/latest-qa</a>
-    </p>
-
-    <ol>
-      <li>
-        <span class="num">1</span>
-        <h2>💿 Download</h2>
-        <p>Use the button above. It saves an installer named <strong>OneForma-modern-&lt;version&gt;.exe</strong>.</p>
-      </li>
-      <li>
-        <span class="num">2</span>
-        <h2>▶️ Run the installer</h2>
-        <p>Double-click the .exe file. The installer finishes on its own and OneForma starts afterwards. If Windows asks for permission to run, choose <strong>Yes</strong>.</p>
-      </li>
-      <li>
-        <span class="num">3</span>
-        <h2>⚠️ If Windows shows a blue "Windows protected your PC" screen</h2>
-        <p>The installer is not signed yet, so Windows may show this warning. It is expected for this trial build. Click <strong>More info</strong>, then click <strong>Run anyway</strong>.</p>
-      </li>
-      <li>
-        <span class="num">4</span>
-        <h2>💻 Open OneForma</h2>
-        <p>If OneForma did not open by itself, open it from the Start menu or the desktop shortcut.</p>
-      </li>
-      <li>
-        <span class="num">5</span>
-        <h2>🔑 Sign in</h2>
-        <p>Sign in with your OneForma account. When the home screen appears, you are done.</p>
-      </li>
-    </ol>
+        <div class="env-channel" data-env-selector>
+          <p class="env-channel__label">Download channel</p>
+          <div class="env-channel__buttons" role="group" aria-label="Download channel">
+            <button type="button" class="env-channel__btn is-active" data-env-option="prod" aria-pressed="true">Production</button>
+            <button type="button" class="env-channel__btn" data-env-option="qa" aria-pressed="false">QA</button>
+            <button type="button" class="env-channel__btn" data-env-option="preuat" aria-pressed="false">Pre-UAT</button>
+            <button type="button" class="env-channel__btn" data-env-option="uat" aria-pressed="false">UAT</button>
+          </div>
+          <p class="env-channel__hint">Internal channels stay selected in this browser until you choose Production again.</p>
+        </div>
+      </div>
+    </section>
   </main>
+  <script src="download.js"></script>
   <script>
-    (function () {
-      var page = "https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-qa";
-      var api = "https://api.github.com/repos/centific-cn/OneformaClient-releases/releases/tags/latest-qa";
-      var allowed = "https://github.com/centific-cn/OneformaClient-releases/releases/download/";
-      var button = document.getElementById("download");
-      var filename = document.getElementById("filename");
-      fetch(api, { headers: { Accept: "application/vnd.github+json" } })
-        .then(function (res) { return res.ok ? res.json() : null; })
-        .then(function (data) {
-          if (!data || !data.assets) return;
-          var exe = data.assets.find(function (asset) {
-            return asset.name && asset.name.endsWith(".exe") && asset.browser_download_url &&
-              asset.browser_download_url.indexOf(allowed) === 0;
-          });
-          if (!exe) return;
-          button.href = exe.browser_download_url;
-          filename.textContent = "💿 " + exe.name;
-        })
-        .catch(function () {
-          button.href = page;
-        });
-    })();
+    OneformaDownload.initPage();
   </script>
 </body>
 </html>
