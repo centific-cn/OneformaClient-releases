@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 128" role="img" aria-labelledby="heroTitle heroDesc">
+  <title id="heroTitle">Install OneForma</title>
+  <desc id="heroDesc">Install OneForma to start your task.</desc>
+  <defs>
+    <linearGradient id="oneforma-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#CD128A"/>
+      <stop offset="55%" stop-color="#00359B"/>
+      <stop offset="100%" stop-color="#0452BF"/>
+    </linearGradient>
+  </defs>
+  <text
+    x="450"
+    y="54"
+    text-anchor="middle"
+    font-family="Roboto, Arial, Helvetica, sans-serif"
+    font-size="44"
+    font-weight="700"
+    fill="#001B35"
+  >Install OneForma</text>
+  <text
+    x="450"
+    y="102"
+    text-anchor="middle"
+    font-family="Roboto, Arial, Helvetica, sans-serif"
+    font-size="30"
+    font-weight="400"
+    fill="url(#oneforma-accent)"
+  >to start your task.</text>
+</svg>

@@ -3,87 +3,137 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Download OneForma</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #1c2430;
-      --muted: #5c6b7a;
-      --line: #e3e8ee;
-      --paper: #f5f7fa;
-      --card: #fff;
-      --green: #1f7a4d;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font: 17px/1.5 "Segoe UI", Helvetica, Arial, sans-serif;
-    }
-    main {
-      max-width: 40rem;
-      margin: 0 auto;
-      padding: 2.5rem 1.25rem 3rem;
-    }
-    .kicker {
-      margin: 0 0 0.25rem;
-      color: var(--green);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    h1 {
-      margin: 0 0 0.5rem;
-      font-size: 2rem;
-      line-height: 1.2;
-    }
-    .lead { margin: 0 0 1.5rem; color: var(--muted); }
-    ol { margin: 0; padding: 0; list-style: none; }
-    li { margin: 0 0 1rem; }
-    a.tile {
-      display: block;
-      padding: 1.4rem 1.2rem 1.4rem 3.4rem;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      position: relative;
-      text-decoration: none;
-      color: var(--ink);
-    }
-    a.tile:hover { border-color: var(--green); }
-    .num {
-      position: absolute;
-      left: 0.9rem;
-      top: 1.45rem;
-      font-size: 1.5rem;
-    }
-    .tile h2 { margin: 0 0 0.2rem; font-size: 1.15rem; }
-    .tile p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-  </style>
+  <title>OneForma - Download Client</title>
+  <link rel="stylesheet" href="download.css">
 </head>
 <body>
-  <main>
-    <p class="kicker">OneForma</p>
-    <h1>⬇️ Download OneForma</h1>
-    <p class="lead">Pick your platform for the install guide and download.</p>
-    <ol>
-      <li>
-        <a class="tile" href="windows.html">
-          <span class="num">🪟</span>
-          <h2>Windows</h2>
-          <p>Download the installer, run it, and sign in.</p>
-        </a>
-      </li>
-      <li>
-        <a class="tile" href="mac.html">
-          <span class="num">💻</span>
-          <h2>Mac</h2>
-          <p>Download the disk image, move it to Applications, and sign in.</p>
-        </a>
-      </li>
-    </ol>
+  <main class="download-page">
+    <section class="top-section">
+      <img
+        class="top-section__text"
+        src="./assets/hero-oneforma.svg"
+        alt="Install OneForma to start your task."
+      />
+      <div class="system-download-cards">
+        <article class="system-download-card" data-platform="mac">
+          <img class="system-download-card__icon" src="./assets/ios-icon.svg" alt="Mac OS">
+          <h2 class="system-download-card__title">Mac OS</h2>
+          <p class="system-download-card__version" data-version-line>Loading… · macOS 12+ · Universal</p>
+          <p class="system-download-card__env" data-env-banner></p>
+          <a class="system-download-card__button" data-download-button href="#">DOWNLOAD THE DMG</a>
+          <ul class="system-download-card__tips">
+            <li>macOS Monterey 12 or later</li>
+            <li>Apple Silicon and Intel supported</li>
+            <li>Sign in with your OneForma account after launch</li>
+          </ul>
+        </article>
+        <article class="system-download-card" data-platform="windows">
+          <img class="system-download-card__icon" src="./assets/windows-icon.svg" alt="Windows">
+          <h2 class="system-download-card__title">Windows</h2>
+          <p class="system-download-card__version" data-version-line>Loading… · Windows 10/11 · 64-bit</p>
+          <p class="system-download-card__env" data-env-banner></p>
+          <a class="system-download-card__button" data-download-button href="#">DOWNLOAD THE INSTALLER</a>
+          <ul class="system-download-card__tips">
+            <li>Windows 10 or Windows 11</li>
+            <li>Run the installer from File Explorer</li>
+            <li>Approve SmartScreen or security prompts if shown</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="setup-section">
+      <div class="setup-section__inner">
+        <h2 class="setup-section__title">How to set up OneForma</h2>
+        <div class="setup-section__content">
+          <img
+            class="setup-section__image"
+            src="./assets/setup-bg.png"
+            alt="OneForma installation guide"
+          >
+          <div class="setup-section__guide">
+            <div class="setup-platform-tabs" role="tablist" aria-label="Setup platform">
+              <button class="setup-platform-tabs__button is-active" type="button" role="tab" aria-selected="true" data-setup-tab="mac">Mac OS</button>
+              <button class="setup-platform-tabs__button" type="button" role="tab" aria-selected="false" data-setup-tab="windows">Windows</button>
+            </div>
+            <div class="setup-guide-panels">
+              <div class="setup-guide-panel is-active" data-setup-guide-panel="mac">
+                <div class="setup-guide-panel__body">
+                  <div class="setup-guide-panel__steps">
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle1.svg" alt="Step 1">
+                    <div class="setup-guide-panel__step-line"></div>
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle2.svg" alt="Step 2">
+                    <div class="setup-guide-panel__step-line"></div>
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle3.svg" alt="Step 3">
+                  </div>
+                  <div class="setup-guide-panel__texts">
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Download the DMG</h3>
+                      <p class="setup-guide-panel__step-desc">Use the button above to download <strong>OneForma-modern-&lt;version&gt;.dmg</strong>.</p>
+                    </div>
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Install the app</h3>
+                      <p class="setup-guide-panel__step-desc">Open the disk image and drag <strong>OneForma</strong> into the Applications folder.</p>
+                    </div>
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Launch and sign in</h3>
+                      <p class="setup-guide-panel__step-desc">Open OneForma from Applications and sign in with your OneForma account.</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="setup-guide-panel__notice">
+                  If macOS blocks the first launch, open <strong>System Settings → Privacy &amp; Security</strong> and choose <strong>Open Anyway</strong>.
+                  For macOS 10.13–11, use a <a href="https://github.com/centific-cn/OneformaClient-releases/releases">legacy</a> build.
+                </p>
+              </div>
+              <div class="setup-guide-panel" data-setup-guide-panel="windows">
+                <div class="setup-guide-panel__body">
+                  <div class="setup-guide-panel__steps">
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle1.svg" alt="Step 1">
+                    <div class="setup-guide-panel__step-line"></div>
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle2.svg" alt="Step 2">
+                    <div class="setup-guide-panel__step-line"></div>
+                    <img class="setup-guide-panel__step-icon" src="./assets/circle3.svg" alt="Step 3">
+                  </div>
+                  <div class="setup-guide-panel__texts">
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Download the installer</h3>
+                      <p class="setup-guide-panel__step-desc">Use the button above to download <strong>OneForma-modern-&lt;version&gt;.exe</strong>.</p>
+                    </div>
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Run the setup</h3>
+                      <p class="setup-guide-panel__step-desc">Double-click the installer. If Windows shows a blue SmartScreen screen, choose <strong>More info</strong> then <strong>Run anyway</strong> when instructed by your team.</p>
+                    </div>
+                    <div class="setup-guide-panel__step-text">
+                      <h3 class="setup-guide-panel__step-title">Launch and sign in</h3>
+                      <p class="setup-guide-panel__step-desc">Open OneForma from the Start menu or desktop shortcut and sign in.</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="setup-guide-panel__notice">
+                  If Windows Defender or company security software asks for confirmation, verify the publisher and allow the installation.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="env-channel" data-env-selector>
+          <p class="env-channel__label">Download channel</p>
+          <div class="env-channel__buttons" role="group" aria-label="Download channel">
+            <button type="button" class="env-channel__btn is-active" data-env-option="prod" aria-pressed="true">Production</button>
+            <button type="button" class="env-channel__btn" data-env-option="qa" aria-pressed="false">QA</button>
+            <button type="button" class="env-channel__btn" data-env-option="preuat" aria-pressed="false">Pre-UAT</button>
+            <button type="button" class="env-channel__btn" data-env-option="uat" aria-pressed="false">UAT</button>
+          </div>
+          <p class="env-channel__hint">Internal channels stay selected in this browser until you choose Production again.</p>
+        </div>
+      </div>
+    </section>
   </main>
+  <script src="download.js"></script>
+  <script>
+    OneformaDownload.initPage({ setupTab: "mac" });
+  </script>
 </body>
 </html>
