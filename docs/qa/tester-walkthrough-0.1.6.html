@@ -383,6 +383,7 @@ Start-Transcript -Path "$T\transcript.txt"</code></pre><button class="copy" type
           <li><b>App lands on Home</b> with your account top-right. Screenshot <code>T4-logged-in-home.png</code>.</li>
         </ul>
         <div class="callout warn"><b>Failure dialog?</b>Click <b>Cancel</b> only — never <code>Retry login</code> (it kicks you out of Home). Screenshot, report.</div>
+        <div class="callout warn"><b>Token error and OneForma was already running?</b>Quit OneForma completely (system tray → Quit), then redo the launch once. Still failing → screenshot, report.</div>
         <p class="note">Optional strict check: <code>eq=True</code> from the session command in the manual §6.</p>
       </li>
 
