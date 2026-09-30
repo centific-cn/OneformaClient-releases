@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install OneForma on Mac</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c2430;
+      --muted: #5c6b7a;
+      --line: #e3e8ee;
+      --paper: #f5f7fa;
+      --card: #fff;
+      --green: #1f7a4d;
+      --green-ink: #0f5132;
+      --note: #f3faf6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 17px/1.5 "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    main {
+      max-width: 40rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3rem;
+    }
+    .kicker {
+      margin: 0 0 0.25rem;
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    .lead { margin: 0 0 1.25rem; color: var(--muted); }
+    .note {
+      margin: 0 0 1.5rem;
+      padding: 0.9rem 1rem;
+      background: var(--note);
+      border: 1px solid #cfe8da;
+      border-radius: 10px;
+    }
+    .note strong { color: var(--green-ink); }
+    a { color: var(--green); }
+    .actions { margin: 0 0 0.4rem; }
+    .button {
+      display: inline-block;
+      padding: 0.75rem 1.15rem;
+      background: var(--green);
+      color: #fff;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .button:hover { background: #196340; }
+    .file, .release-link {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .release-link { margin-bottom: 1.75rem; word-break: break-all; }
+    ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      margin: 0 0 1rem;
+      padding: 0.9rem 1rem 0.9rem 3.4rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      position: relative;
+    }
+    li h2 {
+      margin: 0 0 0.2rem;
+      font-size: 1.05rem;
+    }
+    li p { margin: 0; }
+    .num {
+      position: absolute;
+      left: 0.9rem;
+      top: 0.95rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1.6rem;
+      text-align: center;
+    }
+    .older {
+      margin-top: 0.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .older h2 {
+      margin: 0 0 0.25rem;
+      color: var(--ink);
+      font-size: 1rem;
+    }
+    .older p { margin: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">OneForma</p>
+    <h1>💻 Install on Mac</h1>
+    <p class="lead">Download the app, move it into Applications, open it, and sign in.</p>
+
+    <aside class="note">
+      <strong>✅ Use the release marked Latest.</strong>
+      That row has a green Latest label and the title OneForma modern.
+      Skip any row with a yellow Pre-release label. Those builds are for internal testing.
+    </aside>
+
+    <p class="actions">
+      <a id="download" class="button" href="https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-prod">⬇️ Download for Mac</a>
+    </p>
+    <p id="filename" class="file">💿 Disk image on the Latest release (OneForma modern).</p>
+    <p class="release-link">
+      Release:
+      <a href="https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-prod">github.com/centific-cn/OneformaClient-releases/releases/tag/latest-prod</a>
+    </p>
+
+    <ol>
+      <li>
+        <span class="num">1</span>
+        <h2>💿 Download</h2>
+        <p>Use the button above. It saves a disk image named <strong>OneForma-modern-&lt;version&gt;.dmg</strong>.</p>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <h2>📂 Move it to Applications</h2>
+        <p>Open the disk image. Drag <strong>OneForma</strong> onto the <strong>Applications</strong> folder.</p>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <h2>💻 Open OneForma</h2>
+        <p>Open <strong>OneForma</strong> from Applications. If macOS asks whether to open it, choose Open. If macOS says it cannot check the app, open <strong>System Settings → Privacy &amp; Security</strong>, scroll to Security, click <strong>Open Anyway</strong>, and enter your Mac login password. You can eject the disk image after that.</p>
+      </li>
+      <li>
+        <span class="num">4</span>
+        <h2>🔑 Sign in</h2>
+        <p>Sign in with your OneForma account.</p>
+      </li>
+    </ol>
+
+    <section class="older">
+      <h2>🖥️ Older macOS</h2>
+      <p>
+        This download is for macOS 12 or later.
+        For macOS 10.13 through 11, open the
+        <a href="https://github.com/centific-cn/OneformaClient-releases/releases">releases page</a>
+        and choose the release titled <strong>OneForma legacy</strong>.
+        Leave Pre-release rows alone.
+      </p>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var page = "https://github.com/centific-cn/OneformaClient-releases/releases/tag/latest-prod";
+      var api = "https://api.github.com/repos/centific-cn/OneformaClient-releases/releases/tags/latest-prod";
+      var allowed = "https://github.com/centific-cn/OneformaClient-releases/releases/download/";
+      var button = document.getElementById("download");
+      var filename = document.getElementById("filename");
+      fetch(api, { headers: { Accept: "application/vnd.github+json" } })
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (data) {
+          if (!data || !data.assets) return;
+          var dmg = data.assets.find(function (asset) {
+            return asset.name && asset.name.endsWith(".dmg") && asset.browser_download_url &&
+              asset.browser_download_url.indexOf(allowed) === 0;
+          });
+          if (!dmg) return;
+          button.href = dmg.browser_download_url;
+          filename.textContent = "💿 " + dmg.name;
+        })
+        .catch(function () {
+          button.href = page;
+        });
+    })();
+  </script>
+</body>
+</html>

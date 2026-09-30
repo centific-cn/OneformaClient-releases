@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download OneForma</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c2430;
+      --muted: #5c6b7a;
+      --line: #e3e8ee;
+      --paper: #f5f7fa;
+      --card: #fff;
+      --green: #1f7a4d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 17px/1.5 "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    main {
+      max-width: 40rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3rem;
+    }
+    .kicker {
+      margin: 0 0 0.25rem;
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    .lead { margin: 0 0 1.5rem; color: var(--muted); }
+    ol { margin: 0; padding: 0; list-style: none; }
+    li { margin: 0 0 1rem; }
+    a.tile {
+      display: block;
+      padding: 1.4rem 1.2rem 1.4rem 3.4rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      position: relative;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    a.tile:hover { border-color: var(--green); }
+    .num {
+      position: absolute;
+      left: 0.9rem;
+      top: 1.45rem;
+      font-size: 1.5rem;
+    }
+    .tile h2 { margin: 0 0 0.2rem; font-size: 1.15rem; }
+    .tile p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">OneForma</p>
+    <h1>⬇️ Download OneForma</h1>
+    <p class="lead">Pick your platform for the install guide and download.</p>
+    <ol>
+      <li>
+        <a class="tile" href="windows.html">
+          <span class="num">🪟</span>
+          <h2>Windows</h2>
+          <p>Download the installer, run it, and sign in.</p>
+        </a>
+      </li>
+      <li>
+        <a class="tile" href="mac.html">
+          <span class="num">💻</span>
+          <h2>Mac</h2>
+          <p>Download the disk image, move it to Applications, and sign in.</p>
+        </a>
+      </li>
+    </ol>
+  </main>
+</body>
+</html>

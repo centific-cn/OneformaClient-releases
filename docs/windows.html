@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install OneForma on Windows</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c2430;
+      --muted: #5c6b7a;
+      --line: #e3e8ee;
+      --paper: #f5f7fa;
+      --card: #fff;
+      --green: #1f7a4d;
+      --green-ink: #0f5132;
+      --note: #f3faf6;
+      --warn: #8a5a00;
+      --warn-note: #fff8e8;
+      --warn-line: #f0dca8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 17px/1.5 "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    main {
+      max-width: 40rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3rem;
+    }
+    .kicker {
+      margin: 0 0 0.25rem;
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    .lead { margin: 0 0 1.25rem; color: var(--muted); }
+    .note {
+      margin: 0 0 1.5rem;
+      padding: 0.9rem 1rem;
+      background: var(--note);
+      border: 1px solid #cfe8da;
+      border-radius: 10px;
+    }
+    .note strong { color: var(--green-ink); }
+    .warn {
+      margin: 0 0 1.5rem;
+      padding: 0.9rem 1rem;
+      background: var(--warn-note);
+      border: 1px solid var(--warn-line);
+      border-radius: 10px;
+    }
+    .warn strong { color: var(--warn); }
+    a { color: var(--green); }
+    .actions { margin: 0 0 0.4rem; }
+    .button {
+      display: inline-block;
+      padding: 0.75rem 1.15rem;
+      background: var(--green);
+      color: #fff;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .button:hover { background: #196340; }
+    .file, .release-link {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .release-link { margin-bottom: 1.75rem; word-break: break-all; }
+    ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      margin: 0 0 1rem;
+      padding: 0.9rem 1rem 0.9rem 3.4rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      position: relative;
+    }
+    li h2 {
+      margin: 0 0 0.2rem;
+      font-size: 1.05rem;
+    }
+    li p { margin: 0; }
+    .num {
+      position: absolute;
+      left: 0.9rem;
+      top: 0.95rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1.6rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">OneForma</p>
+    <h1>🪟 Install on Windows</h1>
+    <p class="lead">Download the installer, run it, open OneForma, and sign in.</p>
+
+    <aside class="note">
+      <strong>✅ After installing, sign in with your OneForma account.</strong>
+      Once you see the signed-in home screen, the trial is working — nothing else to test.
+    </aside>
+
+    <p class="actions">
+      <a id="download" class="button" href="https://github.com/centific-cn/OneformaClient/releases/tag/qa-win-latest">⬇️ Download for Windows</a>
+    </p>
+    <p id="filename" class="file">💿 Installer on the latest release (OneForma-modern-&lt;version&gt;.exe).</p>
+    <p class="release-link">
+      Release:
+      <a href="https://github.com/centific-cn/OneformaClient/releases/tag/qa-win-latest">github.com/centific-cn/OneformaClient/releases/tag/qa-win-latest</a>
+    </p>
+
+    <ol>
+      <li>
+        <span class="num">1</span>
+        <h2>💿 Download</h2>
+        <p>Use the button above. It saves an installer named <strong>OneForma-modern-&lt;version&gt;.exe</strong>.</p>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <h2>▶️ Run the installer</h2>
+        <p>Double-click the .exe file. The installer finishes on its own and OneForma starts afterwards. If Windows asks for permission to run, choose <strong>Yes</strong>.</p>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <h2>⚠️ If Windows shows a blue "Windows protected your PC" screen</h2>
+        <p>The installer is not signed yet, so Windows may show this warning. It is expected for this trial build. Click <strong>More info</strong>, then click <strong>Run anyway</strong>.</p>
+      </li>
+      <li>
+        <span class="num">4</span>
+        <h2>💻 Open OneForma</h2>
+        <p>If OneForma did not open by itself, open it from the Start menu or the desktop shortcut.</p>
+      </li>
+      <li>
+        <span class="num">5</span>
+        <h2>🔑 Sign in</h2>
+        <p>Sign in with your OneForma account. When the home screen appears, you are done.</p>
+      </li>
+    </ol>
+  </main>
+  <script>
+    (function () {
+      var page = "https://github.com/centific-cn/OneformaClient/releases/tag/qa-win-latest";
+      var api = "https://api.github.com/repos/centific-cn/OneformaClient/releases/tags/qa-win-latest";
+      var allowed = "https://github.com/centific-cn/OneformaClient/releases/download/";
+      var button = document.getElementById("download");
+      var filename = document.getElementById("filename");
+      fetch(api, { headers: { Accept: "application/vnd.github+json" } })
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (data) {
+          if (!data || !data.assets) return;
+          var exe = data.assets.find(function (asset) {
+            return asset.name && asset.name.endsWith(".exe") && asset.browser_download_url &&
+              asset.browser_download_url.indexOf(allowed) === 0;
+          });
+          if (!exe) return;
+          button.href = exe.browser_download_url;
+          filename.textContent = "💿 " + exe.name;
+        })
+        .catch(function () {
+          button.href = page;
+        });
+    })();
+  </script>
+</body>
+</html>
