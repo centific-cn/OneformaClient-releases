@@ -9,7 +9,10 @@
     return ENVS.indexOf(env) === -1 ? "prod" : env;
   }
 
-  function getEnv() {
+  // Precedence: ?env= URL param > localStorage > page default (fallbackDefault)
+  // > prod. windows.html passes defaultEnv "qa" — it is the unsigned-QA tester
+  // page; visitors landing there cold must not hit the empty prod channel.
+  function getEnv(fallbackDefault) {
     var match = /[?&]env=([^&]+)/.exec(window.location.search);
     if (match) {
       var fromUrl = normalizeEnv(decodeURIComponent(match[1]));
@@ -24,7 +27,7 @@
         return normalizeEnv(stored);
       }
     } catch (e) {}
-    return "prod";
+    return normalizeEnv(fallbackDefault || "prod");
   }
 
   function setEnv(env) {
@@ -176,12 +179,12 @@
     });
   }
 
-  function initEnvSelector() {
+  function initEnvSelector(defaultEnv) {
     var root = document.querySelector("[data-env-selector]");
     if (!root) {
-      return getEnv();
+      return getEnv(defaultEnv);
     }
-    var env = getEnv();
+    var env = getEnv(defaultEnv);
     root.querySelectorAll("[data-env-option]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var next = btn.getAttribute("data-env-option");
@@ -235,7 +238,7 @@
 
   function initPage(options) {
     options = options || {};
-    var env = initEnvSelector();
+    var env = initEnvSelector(options.defaultEnv);
     wireVisibleCards(env);
     if (options.setupTab) {
       initSetupGuideTabs(options.setupTab);
