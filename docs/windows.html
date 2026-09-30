@@ -84,6 +84,7 @@
             <button type="button" class="env-channel__btn" data-env-option="uat" aria-pressed="false">UAT</button>
           </div>
           <p class="env-channel__hint">Internal channels stay selected in this browser until you choose Production again.</p>
+          <p class="env-channel__hint" data-qa-walkthrough hidden>Testing the QA build? Follow the <a href="qa.html">Tester walkthrough</a>.</p>
         </div>
       </div>
     </section>
@@ -91,6 +92,19 @@
   <script src="download.js"></script>
   <script>
     OneformaDownload.initPage({ defaultEnv: "qa" });
+    (function () {
+      var line = document.querySelector("[data-qa-walkthrough]");
+      if (!line) {
+        return;
+      }
+      function syncWalkthroughLink() {
+        line.hidden = OneformaDownload.getEnv("qa") !== "qa";
+      }
+      syncWalkthroughLink();
+      document.querySelectorAll("[data-env-option]").forEach(function (btn) {
+        btn.addEventListener("click", syncWalkthroughLink);
+      });
+    })();
   </script>
 </body>
 </html>

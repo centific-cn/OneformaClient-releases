@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OneForma 0.1.6 QA — Tester Walkthrough</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c2430;
+      --muted: #5c6b7a;
+      --line: #e3e8ee;
+      --paper: #f5f7fa;
+      --card: #fff;
+      --green: #1f7a4d;
+      --green-ink: #0f5132;
+      --green-soft: #f3faf6;
+      --green-line: #cfe8da;
+      --red: #b3362a;
+      --red-soft: #fdeeec;
+      --red-line: #f0c4bf;
+      --amber: #8a6116;
+      --amber-soft: #fdf5e3;
+      --amber-line: #ecd9ac;
+      --code-bg: #0f1626;
+      --code-ink: #dbe4f5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 17px/1.5 "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    main {
+      max-width: 44rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3rem;
+    }
+    .kicker {
+      margin: 0 0 0.25rem;
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    .lead { margin: 0 0 1.25rem; color: var(--muted); }
+    .bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 1.5rem;
+      padding: 0.7rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .bar .track { flex: 1; height: 8px; background: var(--green-soft); border-radius: 99px; overflow: hidden; }
+    .bar .fill { height: 100%; width: 0; background: var(--green); border-radius: 99px; transition: width .3s; }
+    .bar .count { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
+    .bar button {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 7px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+    ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li.card {
+      margin: 0 0 1rem;
+      padding: 1rem 1.1rem 1rem 3.4rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      position: relative;
+    }
+    li.card.done { border-color: var(--green); }
+    li.card h2 {
+      margin: 0 0 0.2rem;
+      font-size: 1.12rem;
+      line-height: 1.3;
+      padding-right: 5.5rem;
+    }
+    .num {
+      position: absolute;
+      left: 0.9rem;
+      top: 1.05rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1.6rem;
+      text-align: center;
+    }
+    li.card.done .num { background: var(--green-ink); }
+    .tick {
+      position: absolute;
+      right: 1rem;
+      top: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .tick input { width: 16px; height: 16px; accent-color: var(--green); cursor: pointer; }
+    p, ul { margin: 0.4rem 0 0; }
+    ul { padding-left: 1.1rem; }
+    li.card li { margin: 0.3rem 0; }
+    code {
+      font-family: Consolas, ui-monospace, monospace;
+      font-size: 0.82em;
+      background: var(--green-soft);
+      border-radius: 5px;
+      padding: 1px 5px;
+      word-break: break-all;
+    }
+    .cmd { position: relative; margin: 0.6rem 0 0; }
+    .cmd pre {
+      margin: 0;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      border-radius: 8px;
+      padding: 0.7rem 0.85rem;
+      overflow-x: auto;
+      font: 12.5px/1.6 Consolas, ui-monospace, monospace;
+    }
+    .cmd .copy {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      border: 0;
+      border-radius: 6px;
+      padding: 3px 9px;
+      background: #ffffff22;
+      color: #dfe7f5;
+      font-size: 11.5px;
+      cursor: pointer;
+    }
+    .cmd .copy:hover { background: #ffffff3a; }
+    .callout {
+      margin: 0.6rem 0 0;
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      font-size: 0.85rem;
+    }
+    .callout b { display: block; margin-bottom: 2px; }
+    .stop { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+    .warn { background: var(--amber-soft); border-color: var(--amber); color: var(--amber); }
+    .note { font-size: 0.85rem; color: var(--muted); margin: 0.6rem 0 0; }
+    .shot { color: var(--muted); }
+    .shot code { font-size: 0.75em; }
+    .mock {
+      margin: 0.7rem 0 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .mock .tb {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 12px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .mock .tb .dots { display: flex; gap: 5px; }
+    .mock .tb .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); display: block; }
+    .mock .body { padding: 0.85rem 1rem; }
+    .ss-blue {
+      background: #2b5bd7;
+      color: #fff;
+      border-radius: 8px;
+      padding: 0.85rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .ss-blue svg { flex: none; margin-top: 2px; }
+    .ss-blue p { margin: 0; font-size: 0.82rem; line-height: 1.5; }
+    .ss-actions { display: flex; gap: 10px; margin-top: 0.7rem; }
+    .btn {
+      border-radius: 7px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--ink);
+    }
+    .btn.primary { background: #2b5bd7; border-color: #2b5bd7; color: #fff; }
+    .btn.ghost { border-color: transparent; background: transparent; color: var(--muted); text-decoration: underline; }
+    .fieldd {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: var(--paper);
+      margin: 7px 0;
+    }
+    .win-app .body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 140px; gap: 8px; }
+    .win-app .logo {
+      width: 42px; height: 42px; border-radius: 12px; background: #2b5bd7; color: #fff;
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem;
+    }
+    .chk { list-style: none; padding: 0; }
+    .chk li { margin: 0.45rem 0; padding-left: 1.6rem; position: relative; }
+    .chk li::before {
+      content: ""; position: absolute; left: 0; top: 4px;
+      width: 13px; height: 13px; border-radius: 4px; border: 1.5px solid var(--muted);
+    }
+    section.stopcard {
+      margin: 1.5rem 0 0;
+      padding: 0.9rem 1.1rem;
+      background: var(--red-soft);
+      border: 1px solid var(--red);
+      border-radius: 10px;
+    }
+    section.stopcard h2 { margin: 0 0 0.3rem; font-size: 1rem; color: var(--red); }
+    section.stopcard ul { padding-left: 1.1rem; font-size: 0.9rem; }
+    footer {
+      margin: 1.5rem 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">OneForma QA</p>
+    <h1>✅ 0.1.6 Tester Walkthrough</h1>
+    <p class="lead">Own Windows PC or local VM · smoke run ≈ 30 min, full run ≈ 60–90 min · one sitting, one machine. Tick <b>Done</b> as you go — progress is remembered on this device.</p>
+
+    <div class="bar">
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <span class="count" id="count">0 / 10 done</span>
+      <button id="reset" type="button">Reset</button>
+    </div>
+
+    <ol>
+      <li class="card" id="s1">
+        <span class="num">1</span>
+        <h2>Download the package, get your account</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <ul>
+          <li><b>Download from the official page:</b> <code>https://centific-cn.github.io/OneformaClient-releases/windows.html</code> — it opens on the QA channel and points at the public tag <code>qa-win-manual</code>. Save <code>OneForma-modern-0.1.6.exe</code> from there.</li>
+          <li><b>From the release owner:</b> your assigned test account and the password source.</li>
+          <li>One account per person. Do not log into it from a phone or second PC during the run — devices kick each other out (90020).</li>
+        </ul>
+        <div class="callout warn"><b>One package only counts</b>A production-lookalike with the same file name and version exists. Never download by name from any other release or share — only use the official page above. Step 3 catches a wrong file.</div>
+      </li>
+
+      <li class="card" id="s2">
+        <span class="num">2</span>
+        <h2>Check your machine</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <div class="cmd"><pre><code>reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v EditionID
+@("$env:LOCALAPPDATA\Programs\OneForma", "$env:APPDATA\OneForma") |
+  ForEach-Object { "{0} => {1}" -f $_, (Test-Path $_) }</code></pre><button class="copy" type="button">Copy</button></div>
+        <ul>
+          <li><b>Edition</b> — Professional / Enterprise / Education. Home (<code>Core</code>) → stop, results invalid.</li>
+          <li><b>Cleanliness</b> — both paths print <code>False</code> and no OneForma keys exist. Anything found → screenshot, delete, re-run until clean. "Uninstalled before" ≠ clean.</li>
+        </ul>
+        <div class="callout warn"><b>No Windows Sandbox</b>Sandbox never shows the classic SmartScreen dialog — Step 6 would false-negative.</div>
+        <p class="note">Screenshot: <code>T0-selfcheck.png</code></p>
+      </li>
+
+      <li class="card" id="s3">
+        <span class="num">3</span>
+        <h2>Verify the package hash — veto gate</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <div class="cmd"><pre><code>(Get-FileHash "&lt;path-to-package&gt;\OneForma-modern-0.1.6.exe" -Algorithm SHA256).Hash -eq "B00DF328333D4A50C0E1B1D9C3D2F35DD608A33EF05CE2001F6E1F21FF7B77FA"</code></pre><button class="copy" type="button">Copy</button></div>
+        <p class="note">The hash is the package's only identity. Screenshot: <code>T1-hash-motw.png</code></p>
+        <p class="note">🔄 <code>qa-win-manual</code> is rolling — CI replaces the exe on every QA build. If the release owner announces a newer build, check against the sha256 in that tag's release notes instead.</p>
+        <div class="callout stop"><b>False → stop everything</b>A wrong file means the production lookalike or a tampered copy. Report to the release owner; do not install.</div>
+      </li>
+
+      <li class="card" id="s4">
+        <span class="num">4</span>
+        <h2>Keep the "download mark" (MOTW)</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <div class="cmd"><pre><code>Get-Item "&lt;path&gt;\OneForma-modern-0.1.6.exe" -Stream Zone.Identifier</code></pre><button class="copy" type="button">Copy</button></div>
+        <p class="note">Stream content listed → done. Error "stream does not exist" → the transfer stripped it. Restore:</p>
+        <div class="cmd"><pre><code>Add-Content -Path "&lt;path&gt;\OneForma-modern-0.1.6.exe" -Stream Zone.Identifier -Value "[ZoneTransfer]","ZoneId=3"</code></pre><button class="copy" type="button">Copy</button></div>
+        <div class="callout warn"><b>Why it matters</b>Without this mark Step 6's SmartScreen dialog never appears — a guaranteed false "pass".</div>
+      </li>
+
+      <li class="card" id="s5">
+        <span class="num">5</span>
+        <h2>Start the evidence recorder</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <div class="cmd"><pre><code>$T = "$env:USERPROFILE\Desktop\qa-test-&lt;yourname&gt;-&lt;YYYYMMDD&gt;"
+New-Item -ItemType Directory -Path $T -Force | Out-Null
+Start-Transcript -Path "$T\transcript.txt"</code></pre><button class="copy" type="button">Copy</button></div>
+        <p class="note">All screenshots go into this folder. Keep the window open until the very end — it records every command you run. On a VM, also take a snapshot now.</p>
+      </li>
+
+      <li class="card" id="s6">
+        <span class="num">6</span>
+        <h2>Double-click → SmartScreen warning</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <p class="note">In <b>File Explorer</b>, double-click the installer. This blue dialog is <b>expected and required</b>:</p>
+        <div class="mock">
+          <div class="tb"><span class="dots"><i></i><i></i><i></i></span> Windows Security</div>
+          <div class="body">
+            <div class="ss-blue">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z" fill="#ffffff" opacity=".9"/><path d="M12 7l5 2v3.5c0 3-2 5.5-5 7-3-1.5-5-4-5-7V9l5-2z" fill="#2b5bd7"/><rect x="11.2" y="9.5" width="1.6" height="4" rx=".8" fill="#2b5bd7"/><circle cx="12" cy="15.4" r=".95" fill="#2b5bd7"/></svg>
+              <p>Microsoft Defender SmartScreen prevented an unrecognized app from starting. Running this app might put your PC at risk.<br><span style="opacity:.85;font-size:12px">App: OneForma-modern-0.1.6.exe · Publisher: Unknown</span></p>
+            </div>
+            <div class="ss-actions">
+              <button class="btn primary" type="button">Don't run</button>
+              <button class="btn ghost" type="button">More info</button>
+            </div>
+          </div>
+        </div>
+        <ul>
+          <li>Click <b>More info</b> → <b>Run anyway</b> appears. Screenshot both states: <code>T3-smartscreen-dialog.png</code>, <code>T3-run-anyway.png</code> → click <b>Run anyway</b>.</li>
+          <li>Chinese-locale Windows shows the same dialog in Chinese — judge by the blue dialog + More info → Run anyway flow.</li>
+        </ul>
+        <div class="callout stop"><b>No dialog at all?</b>Do not proceed. Re-check Step 4 (MOTW truly present), retry once. Still silent → screenshot and report. Never record it as "product does not block".</div>
+      </li>
+
+      <li class="card" id="s7">
+        <span class="num">7</span>
+        <h2>One-click install → first launch</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <div class="mock win-app">
+          <div class="tb"><span class="dots"><i></i><i></i><i></i></span> OneForma</div>
+          <div class="body">
+            <div class="logo">OF</div>
+            <div style="font-weight:600">Welcome to OneForma</div>
+            <div style="color:var(--muted);font-size:13px">Sign in to get started</div>
+            <button class="btn primary" type="button">Sign In</button>
+          </div>
+        </div>
+        <ul>
+          <li><b>No install wizard</b> — no admin prompt, tens of seconds, app auto-starts (or double-click the desktop icon).</li>
+          <li><b>First window</b> — signed-out page like above — and <b>no</b> "forced update" overlay.</li>
+          <li>Screenshot: <code>T3-first-launch-signed-out.png</code></li>
+        </ul>
+      </li>
+
+      <li class="card" id="s8">
+        <span class="num">8</span>
+        <h2>Sign in — strictly two steps</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <p class="note">Click <b>Sign In</b> → your browser opens the QA login page:</p>
+        <div class="mock">
+          <div class="tb"><span class="dots"><i></i><i></i><i></i></span> ch-qa-web.oneforma2.com/center/login</div>
+          <div class="body">
+            <div class="fieldd">your-account@example.com</div>
+            <button class="btn primary" type="button">Continue</button>
+            <div class="note" style="text-align:center">…then a second screen appears…</div>
+            <div class="fieldd">••••••••••</div>
+            <button class="btn primary" type="button">Sign in</button>
+          </div>
+        </div>
+        <ul>
+          <li><b>email → Continue → password</b>. Filling both on one screen fails the login.</li>
+          <li>Success page shows a code → click <b>Open OneForma Client</b> (allow the browser prompt). Fallback: <code>Win+R</code> → <code>oneformaclient://?code=&lt;code&gt;</code> — copy the code, never retype.</li>
+          <li><b>App lands on Home</b> with your account top-right. Screenshot <code>T4-logged-in-home.png</code>.</li>
+        </ul>
+        <div class="callout warn"><b>Failure dialog?</b>Click <b>Cancel</b> only — never <code>Retry login</code> (it kicks you out of Home). Screenshot, report.</div>
+        <p class="note">Optional strict check: <code>eq=True</code> from the session command in the manual §6.</p>
+      </li>
+
+      <li class="card" id="s9">
+        <span class="num">9</span>
+        <h2>In-app checks</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <ul class="chk">
+          <li><b>About shows 0.1.6</b> — Help → About OneForma. Publisher = Centific.</li>
+          <li><b>Tag card (pilot only)</b> — first click opens the consent drawer; after consenting, it opens directly. Stay on this machine afterwards.</li>
+          <li><b>Watermark (pilot only)</b> — inside the Tag tab, diagonal watermark with device ID + timestamp.</li>
+          <li><b>New tab blocking</b> — <code>chatgpt.com</code> → "Access Blocked" dialog; <code>www.baidu.com</code> opens normally.</li>
+          <li><b>Copy / paste (pilot only)</b> — Ctrl+C works in the Tag tab; Ctrl+V paste is blocked.</li>
+          <li><b>Check for Updates fails</b> — profile menu → Check for Updates. A failure error is <b>expected</b>.</li>
+        </ul>
+        <p class="note">One screenshot per item — file names in the manual §7.</p>
+        <div class="callout warn"><b>No Tag card on Home?</b>Expected for a <b>non-pilot</b> account — server-side gating, not a bug. Mark the pilot-only items <code>N/A - non-pilot account</code> and continue. Pilot accounts are not distributed; use your own applied QA account.</div>
+        <div class="callout stop"><b>Update found / downloading?</b>That is the wrong-channel package. Screenshot, stop, report.</div>
+      </li>
+
+      <li class="card" id="s10">
+        <span class="num">10</span>
+        <h2>Wrap up and return evidence</h2>
+        <label class="tick"><input type="checkbox" class="done"> Done</label>
+        <ul>
+          <li><code>Stop-Transcript</code> in the PowerShell window.</li>
+          <li>Check every <code>T*.png</code> screenshot exists — re-shoot missing ones.</li>
+          <li>Fill <code>results.md</code> (one row per case, template in the manual §9) and return the whole folder via the channel from step 1.</li>
+          <li>Optional deep checks — install folder, shortcuts, uninstall residue — are in the manual §8. Do them last; uninstall removes the app.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <section class="stopcard">
+      <h2>Stop-and-report — any of these</h2>
+      <ul>
+        <li>Hash check prints <code>False</code> · SmartScreen silent with MOTW confirmed · login page unreachable or fails after one correct retry</li>
+        <li>90020 device-mismatch error · "Check for Updates" finds a version · any step off-expectation after one retry</li>
+        <li>Then: screenshot → stop → contact the release owner. Never swap packages, tweak settings or environment variables, or paste session-file contents anywhere.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Source of truth: <code>docs/qa/TESTER-GUIDE-Win-0.1.6-20260929.md</code> (criteria &amp; exact commands) · derived view 2026-09-30 · pinned package <code>b00df328…</code> (0.1.6, commit <code>e91816d</code>)
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var KEY = 'ofqa-walkthrough-progress';
+      var boxes = [].slice.call(document.querySelectorAll('.tick input'));
+      var fill = document.getElementById('fill'), count = document.getElementById('count');
+      function load() {
+        try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
+      }
+      function save(arr) {
+        try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+      }
+      function render() {
+        var done = boxes.filter(function (b) { return b.checked; }).length;
+        fill.style.width = (done / boxes.length * 100) + '%';
+        count.textContent = done + ' / ' + boxes.length + ' done';
+        boxes.forEach(function (b) { b.closest('.card').classList.toggle('done', b.checked); });
+      }
+      var saved = load();
+      boxes.forEach(function (b, i) {
+        b.checked = saved.indexOf(i) > -1;
+        b.addEventListener('change', function () {
+          save(boxes.map(function (b2, j) { return b2.checked ? j : -1; }).filter(function (j) { return j > -1; }));
+          render();
+        });
+      });
+      document.getElementById('reset').addEventListener('click', function () {
+        boxes.forEach(function (b) { b.checked = false; }); save([]); render();
+      });
+      render();
+      [].slice.call(document.querySelectorAll('.cmd .copy')).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var code = btn.parentNode.querySelector('code').innerText;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code).then(function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1500); }, function () { btn.textContent = 'Select + Ctrl+C'; });
+          } else { btn.textContent = 'Select + Ctrl+C'; }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
