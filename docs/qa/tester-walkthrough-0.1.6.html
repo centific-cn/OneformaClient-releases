@@ -351,9 +351,9 @@ C:\Users\you\AppData\Roaming\OneForma        => False
         <span class="num">3</span>
         <h2>Verify the package hash — veto gate</h2>
         <label class="tick"><input type="checkbox" class="done"> Done</label>
-        <div class="cmd"><pre><code>(Get-FileHash "&lt;path-to-package&gt;\OneForma-modern-0.1.6.exe" -Algorithm SHA256).Hash -eq "B00DF328333D4A50C0E1B1D9C3D2F35DD608A33EF05CE2001F6E1F21FF7B77FA"</code></pre><button class="copy" type="button">Copy</button></div>
+        <div class="cmd"><pre><code>(Get-FileHash "&lt;path-to-package&gt;\OneForma-modern-0.1.6.exe" -Algorithm SHA256).Hash -eq "9C6F1D11EEA0AEA4472ED9D58CDF4F17760123F766F7C80E405EC8D659A443BD"</code></pre><button class="copy" type="button">Copy</button></div>
         <div class="out"><div class="lbl">Expected output</div><pre><code><span class="ok">True</span></code></pre></div>
-        <div class="callout warn"><b>One hash source only</b>The value in the command above is the sha256 pinned for the build this walkthrough announces (0.1.6, commit <code>e91816d</code>). <code>qa-win-manual</code> is a rolling tag — CI replaces the exe on every QA build. If the release owner announces a newer build, take the sha256 from <b>that tag's release notes</b> and paste it into the command. Never compare against a hash from memory or another message.</div>
+        <div class="callout warn"><b>One hash source only</b>The value in the command above is the sha256 pinned for the build this walkthrough announces (0.1.6, commit <code>3224ebe6</code>, published 2026-10-01). <code>qa-win-manual</code> is a rolling tag — CI replaces the exe on every QA build. If the release owner announces a newer build, take the sha256 from <b>that tag's release notes</b> and paste it into the command. Never compare against a hash from memory or another message.</div>
         <p class="note">The hash is the package's only identity. Screenshot: <code>T1-hash-motw.png</code></p>
         <div class="callout stop"><b>False → stop everything</b>A wrong file means the production lookalike or a tampered copy. Report to the release owner; do not install.</div>
       </li>
@@ -535,7 +535,7 @@ Start-Transcript -Path "$T\transcript.txt"</code></pre><button class="copy" type
     </section>
 
     <footer>
-      Source of truth: <code>docs/qa/TESTER-GUIDE-Win-0.1.6-20260929.md</code> (criteria &amp; exact commands) · derived view 2026-10-01 · pinned package <code>b00df328…</code> (0.1.6, commit <code>e91816d</code>)
+      Source of truth: <code>docs/qa/TESTER-GUIDE-Win-0.1.6-20260929.md</code> (criteria &amp; exact commands) · derived view 2026-10-01 · pinned package <code>9c6f1d11…</code> (0.1.6, commit <code>3224ebe6</code>)
     </footer>
   </main>
 
