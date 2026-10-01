@@ -31,6 +31,7 @@ jobs:
           }
           MANUAL=$(notes_sha qa-win-manual)
           PAGE=$(curl -fsSL "$PAGE_URL?cb=$RANDOM" | grep -oE 'eq "[0-9A-Fa-f]{64}"' | grep -oE '[0-9A-Fa-f]{64}' | head -1)
+          MANUAL=${MANUAL^^} PAGE=${PAGE^^} # notes 小写、页面大写 — 比较前归一化
 
           echo "manual-tag notes : ${MANUAL:-<none>}"
           echo "walkthrough pin  : ${PAGE:-<none>}"
