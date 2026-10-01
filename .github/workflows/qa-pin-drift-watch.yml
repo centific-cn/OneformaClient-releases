@@ -1,0 +1,77 @@
+name: qa-pin-drift-watch
+
+# 看门狗：QA 渠道哈希三方一致性（qa-win-manual notes ↔ qa-win-latest notes ↔ walkthrough 页面 pin）。
+# 起因：2026-10-01 qa-win-manual 被滚动 20 小时无人发现，walkthrough 锁定哈希过期，
+# 测试员会在 Step 3 哈希否决关口全军覆没。本 workflow ≤30 分钟发现漂移并开 issue。
+# 检测零下载：CI 发布时 release notes 自带 sha256sum 输出，直接解析比对。
+
+on:
+  schedule:
+    - cron: '13,43 * * * *' # 每半小时，避开整点
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check hash coherence and alert on drift
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PAGE_URL: https://centific-cn.github.io/OneformaClient-releases/qa/tester-walkthrough-0.1.6.html
+        run: |
+          set -euo pipefail
+          notes_sha() { # $1 = repo, $2 = tag → release body 里首个 64-hex sha256
+            gh api "repos/$1/releases/tags/$2" --jq .body 2>/dev/null \
+              | grep -oE '[0-9a-fA-F]{64}' | head -1 || true
+          }
+          MANUAL=$(notes_sha "$REPO" qa-win-manual)
+          LATEST=$(notes_sha centific-cn/OneformaClient qa-win-latest)
+          PAGE=$(curl -fsSL "$PAGE_URL?cb=$RANDOM" | grep -oE 'eq "[0-9A-Fa-f]{64}"' | grep -oE '[0-9A-Fa-f]{64}' | head -1)
+
+          echo "manual-tag notes : ${MANUAL:-<none>}"
+          echo "latest-tag notes : ${LATEST:-<none>}"
+          echo "walkthrough pin  : ${PAGE:-<none>}"
+
+          STATUS="OK"
+          if [ -z "$MANUAL" ]; then STATUS="MISSING-manual-notes";
+          elif [ -z "$LATEST" ]; then STATUS="MISSING-latest-notes";
+          elif [ -z "$PAGE" ]; then STATUS="MISSING-page-pin";
+          elif [ "$MANUAL" != "$LATEST" ]; then STATUS="TAGS-DIVERGED";
+          elif [ "$MANUAL" != "$PAGE" ]; then STATUS="PAGE-PIN-STALE"; fi
+          echo "STATUS=$STATUS"
+
+          TABLE="| 源 | sha256 |
+          |---|---|
+          | qa-win-manual notes | \`${MANUAL:-(none)}\` |
+          | qa-win-latest notes | \`${LATEST:-(none)}\` |
+          | walkthrough page pin | \`${PAGE:-(none)}\` |"
+
+          TITLE="⚠️ QA 渠道哈希漂移：walkthrough pin 与线上 tag 不一致"
+          EXISTING=$(gh issue list -R "$REPO" --search "$TITLE in:title" --state open --json number --jq '.[0].number' || true)
+
+          if [ "$STATUS" != "OK" ]; then
+            BODY="$STATUS
+
+          $TABLE
+
+          —— 自动检测于 $(date -u '+%F %T') UTC（qa-pin-drift-watch）"
+            if [ -n "$EXISTING" ]; then
+              gh issue comment "$EXISTING" -R "$REPO" --body "$BODY"
+              echo "drift issue #$EXISTING updated"
+            else
+              gh issue create -R "$REPO" --title "$TITLE" --body "$BODY"
+              echo "drift issue created"
+            fi
+            exit 1 # run 本身也红着，可视作告警
+          fi
+
+          if [ -n "$EXISTING" ]; then
+            gh issue close "$EXISTING" -R "$REPO" --comment "三方一致，自动关闭（$(date -u '+%F %T') UTC）"
+            echo "drift issue #$EXISTING auto-closed"
+          fi
+          echo "coherent, all quiet"
