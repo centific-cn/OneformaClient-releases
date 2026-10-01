@@ -25,30 +25,27 @@ jobs:
           PAGE_URL: https://centific-cn.github.io/OneformaClient-releases/qa/tester-walkthrough-0.1.6.html
         run: |
           set -euo pipefail
-          notes_sha() { # $1 = repo, $2 = tag → release body 里首个 64-hex sha256
-            gh api "repos/$1/releases/tags/$2" --jq .body 2>/dev/null \
+          notes_sha() { # $1 = tag → release body 里首个 64-hex sha256（本仓内，token 可读）
+            gh api "repos/$REPO/releases/tags/$1" --jq .body 2>/dev/null \
               | grep -oE '[0-9a-fA-F]{64}' | head -1 || true
           }
-          MANUAL=$(notes_sha "$REPO" qa-win-manual)
-          LATEST=$(notes_sha centific-cn/OneformaClient qa-win-latest)
+          MANUAL=$(notes_sha qa-win-manual)
           PAGE=$(curl -fsSL "$PAGE_URL?cb=$RANDOM" | grep -oE 'eq "[0-9A-Fa-f]{64}"' | grep -oE '[0-9A-Fa-f]{64}' | head -1)
 
           echo "manual-tag notes : ${MANUAL:-<none>}"
-          echo "latest-tag notes : ${LATEST:-<none>}"
           echo "walkthrough pin  : ${PAGE:-<none>}"
 
           STATUS="OK"
           if [ -z "$MANUAL" ]; then STATUS="MISSING-manual-notes";
-          elif [ -z "$LATEST" ]; then STATUS="MISSING-latest-notes";
           elif [ -z "$PAGE" ]; then STATUS="MISSING-page-pin";
-          elif [ "$MANUAL" != "$LATEST" ]; then STATUS="TAGS-DIVERGED";
           elif [ "$MANUAL" != "$PAGE" ]; then STATUS="PAGE-PIN-STALE"; fi
           echo "STATUS=$STATUS"
 
+          # 注：不查私仓 OneformaClient 的 qa-win-latest —— github.token 跨仓 404；
+          # 若要三方检，配 secrets.CROSS_REPO_TOKEN 后把上面函数指过去。
           TABLE="| 源 | sha256 |
           |---|---|
           | qa-win-manual notes | \`${MANUAL:-(none)}\` |
-          | qa-win-latest notes | \`${LATEST:-(none)}\` |
           | walkthrough page pin | \`${PAGE:-(none)}\` |"
 
           TITLE="⚠️ QA 渠道哈希漂移：walkthrough pin 与线上 tag 不一致"
