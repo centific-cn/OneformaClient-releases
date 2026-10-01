@@ -224,6 +224,51 @@
       width: 42px; height: 42px; border-radius: 12px; background: #2b5bd7; color: #fff;
       display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem;
     }
+    .out {
+      margin: 0.6rem 0 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .out .lbl {
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--green-ink);
+      background: var(--green-soft);
+      border-bottom: 1px solid var(--green-line);
+    }
+    .out pre {
+      margin: 0;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      padding: 0.7rem 0.85rem;
+      overflow-x: auto;
+      font: 12.5px/1.6 Consolas, ui-monospace, monospace;
+    }
+    .out .ok { color: #7ee2a8; }
+    .out .dim { color: #8fa3c8; }
+    .wm-wrap { position: relative; min-height: 110px; overflow: hidden; }
+    .wm {
+      position: absolute; inset: 0; display: flex; align-items: center; pointer-events: none;
+    }
+    .wm span {
+      transform: rotate(-24deg);
+      font-size: 15px; font-weight: 700; color: #5c6b7a; opacity: .16;
+      white-space: nowrap;
+    }
+    .blocked {
+      text-align: center; padding: 1.3rem 1rem;
+    }
+    .blocked .t { font-weight: 700; color: var(--red); font-size: 1.05rem; }
+    .about-row { display: flex; gap: 12px; align-items: center; }
+    .about-row .logo {
+      width: 38px; height: 38px; border-radius: 10px; background: #2b5bd7; color: #fff;
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem;
+      flex: none;
+    }
     .chk { list-style: none; padding: 0; }
     .chk li { margin: 0.45rem 0; padding-left: 1.6rem; position: relative; }
     .chk li::before {
@@ -278,13 +323,20 @@
         <label class="tick"><input type="checkbox" class="done"> Done</label>
         <div class="cmd"><pre><code>reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v EditionID
 @("$env:LOCALAPPDATA\Programs\OneForma", "$env:APPDATA\OneForma") |
-  ForEach-Object { "{0} => {1}" -f $_, (Test-Path $_) }</code></pre><button class="copy" type="button">Copy</button></div>
+  ForEach-Object { "{0} => {1}" -f $_, (Test-Path $_) }
+reg query "HKCU\Software\Classes\OneformaClient" 2&gt;$null
+reg query "HKLM\Software\Classes\OneformaClient" 2&gt;$null</code></pre><button class="copy" type="button">Copy</button></div>
+        <div class="out"><div class="lbl">Expected output — everything below is a pass</div><pre><code>    EditionID    REG_SZ    Professional
+C:\Users\you\AppData\Local\Programs\OneForma => False
+C:\Users\you\AppData\Roaming\OneForma        => False
+<span class="dim">ERROR: The system was unable to find the specified registry key or value.</span> <span class="ok">← both reg queries</span></code></pre></div>
         <ul>
           <li><b>Edition</b> — Professional / Enterprise / Education. Home (<code>Core</code>) → stop, results invalid.</li>
-          <li><b>Cleanliness</b> — both paths print <code>False</code> and no OneForma keys exist. Anything found → screenshot, delete, re-run until clean. "Uninstalled before" ≠ clean.</li>
+          <li><b>Cleanliness</b> — both paths print <code>False</code> and both <code>reg query</code> calls report "not found". Anything found → screenshot, delete, re-run until clean. "Uninstalled before" ≠ clean — the uninstaller keeps <code>%APPDATA%\OneForma</code>.</li>
+          <li><b>Connectivity</b> — open <code>https://ch-qa-web.oneforma2.com/center/login</code> in a browser; the page rendering is enough — <b>do not log in yet</b>. Unreachable → sort network out first, or Step 8 dead-ends.</li>
         </ul>
         <div class="callout warn"><b>No Windows Sandbox</b>Sandbox never shows the classic SmartScreen dialog — Step 6 would false-negative.</div>
-        <p class="note">Screenshot: <code>T0-selfcheck.png</code></p>
+        <p class="note">Screenshots: <code>T0-selfcheck.png</code> · <code>T0-login-page-reachable.png</code></p>
       </li>
 
       <li class="card" id="s3">
@@ -292,8 +344,9 @@
         <h2>Verify the package hash — veto gate</h2>
         <label class="tick"><input type="checkbox" class="done"> Done</label>
         <div class="cmd"><pre><code>(Get-FileHash "&lt;path-to-package&gt;\OneForma-modern-0.1.6.exe" -Algorithm SHA256).Hash -eq "B00DF328333D4A50C0E1B1D9C3D2F35DD608A33EF05CE2001F6E1F21FF7B77FA"</code></pre><button class="copy" type="button">Copy</button></div>
+        <div class="out"><div class="lbl">Expected output</div><pre><code><span class="ok">True</span></code></pre></div>
+        <div class="callout warn"><b>One hash source only</b>The value in the command above is the sha256 pinned for the build this walkthrough announces (0.1.6, commit <code>e91816d</code>). <code>qa-win-manual</code> is a rolling tag — CI replaces the exe on every QA build. If the release owner announces a newer build, take the sha256 from <b>that tag's release notes</b> and paste it into the command. Never compare against a hash from memory or another message.</div>
         <p class="note">The hash is the package's only identity. Screenshot: <code>T1-hash-motw.png</code></p>
-        <p class="note">🔄 <code>qa-win-manual</code> is rolling — CI replaces the exe on every QA build. If the release owner announces a newer build, check against the sha256 in that tag's release notes instead.</p>
         <div class="callout stop"><b>False → stop everything</b>A wrong file means the production lookalike or a tampered copy. Report to the release owner; do not install.</div>
       </li>
 
@@ -302,7 +355,10 @@
         <h2>Keep the "download mark" (MOTW)</h2>
         <label class="tick"><input type="checkbox" class="done"> Done</label>
         <div class="cmd"><pre><code>Get-Item "&lt;path&gt;\OneForma-modern-0.1.6.exe" -Stream Zone.Identifier</code></pre><button class="copy" type="button">Copy</button></div>
-        <p class="note">Stream content listed → done. Error "stream does not exist" → the transfer stripped it. Restore:</p>
+        <div class="out"><div class="lbl">Expected output</div><pre><code>    FileName   : C:\Users\you\Downloads\OneForma-modern-0.1.6.exe
+    Stream     : Zone.Identifier
+    Length     : <span class="dim">###</span></code></pre></div>
+        <p class="note">Stream listed like above → done. Error "stream does not exist" → the transfer stripped it. Restore:</p>
         <div class="cmd"><pre><code>Add-Content -Path "&lt;path&gt;\OneForma-modern-0.1.6.exe" -Stream Zone.Identifier -Value "[ZoneTransfer]","ZoneId=3"</code></pre><button class="copy" type="button">Copy</button></div>
         <div class="callout warn"><b>Why it matters</b>Without this mark Step 6's SmartScreen dialog never appears — a guaranteed false "pass".</div>
       </li>
@@ -392,14 +448,39 @@ Start-Transcript -Path "$T\transcript.txt"</code></pre><button class="copy" type
         <h2>In-app checks</h2>
         <label class="tick"><input type="checkbox" class="done"> Done</label>
         <ul class="chk">
-          <li><b>About shows 0.1.6</b> — Help → About OneForma. Publisher = Centific.</li>
-          <li><b>Tag card (pilot only)</b> — first click opens the consent drawer; after consenting, it opens directly. Stay on this machine afterwards.</li>
-          <li><b>Watermark (pilot only)</b> — inside the Tag tab, diagonal watermark with device ID + timestamp.</li>
-          <li><b>New tab blocking</b> — <code>chatgpt.com</code> → "Access Blocked" dialog; <code>www.baidu.com</code> opens normally.</li>
-          <li><b>Copy / paste (pilot only)</b> — Ctrl+C works in the Tag tab; Ctrl+V paste is blocked.</li>
-          <li><b>Check for Updates fails</b> — profile menu → Check for Updates. A failure error is <b>expected</b>.</li>
+          <li><b>About shows 0.1.6</b> — Help → About OneForma. Publisher = Centific. <code>T5-about-version.png</code></li>
+          <li><b>Tag card (pilot only)</b> — first click opens the consent drawer; after consenting, it opens directly. Stay on this machine afterwards. <code>T5-tag-consent.png</code> + <code>T5-tag-direct-open.png</code></li>
+          <li><b>Watermark (pilot only)</b> — inside the Tag tab, diagonal watermark with device ID + timestamp. <code>T5-watermark.png</code></li>
+          <li><b>New tab blocking</b> — <code>chatgpt.com</code> → "Access Blocked" dialog; <code>www.baidu.com</code> opens normally. <code>T5-blocked-chatgpt.png</code> + <code>T5-open-baidu.png</code></li>
+          <li><b>Copy / paste (pilot only)</b> — Ctrl+C works in the Tag tab; Ctrl+V paste is blocked. <code>T5-copy-ok.png</code> + <code>T5-paste-blocked.png</code></li>
+          <li><b>Check for Updates fails</b> — profile menu → Check for Updates. A failure error is <b>expected</b>; screenshot it.</li>
         </ul>
-        <p class="note">One screenshot per item — file names in the manual §7.</p>
+        <div class="mock">
+          <div class="tb"><span class="dots"><i></i><i></i><i></i></span> OneForma — Help ▸ About</div>
+          <div class="body">
+            <div class="about-row">
+              <div class="logo">OF</div>
+              <div>
+                <div style="font-weight:600">OneForma</div>
+                <div class="note" style="margin:0">Version 0.1.6 · Publisher: Centific</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mock">
+          <div class="tb"><span class="dots"><i></i><i></i><i></i></span> OneForma — Tag tab (watermark is translucent, behind content)</div>
+          <div class="body wm-wrap">
+            <div class="wm"><span>OneForma · DEVICE-XXXX · 2026-MM-DD HH:MM:SS · OneForma · DEVICE-XXXX · 2026-MM-DD HH:MM:SS</span></div>
+          </div>
+        </div>
+        <div class="mock">
+          <div class="tb"><span class="dots"><i></i><i></i><i></i></span> OneForma — in-app tab after opening chatgpt.com</div>
+          <div class="body blocked">
+            <div class="t">Access Blocked</div>
+            <div class="note">This address is not allowed by the current security policy…</div>
+          </div>
+        </div>
+        <p class="note">Network note: it does not matter if your network itself cannot reach <code>chatgpt.com</code> — the criterion is the <b>in-app Access Blocked dialog</b>. The anomaly is the page actually loading.</p>
         <div class="callout warn"><b>No Tag card on Home?</b>Expected for a <b>non-pilot</b> account — server-side gating, not a bug. Mark the pilot-only items <code>N/A - non-pilot account</code> and continue. Pilot accounts are not distributed; use your own applied QA account.</div>
         <div class="callout stop"><b>Update found / downloading?</b>That is the wrong-channel package. Screenshot, stop, report.</div>
       </li>
@@ -414,6 +495,25 @@ Start-Transcript -Path "$T\transcript.txt"</code></pre><button class="copy" type
           <li>Fill <code>results.md</code> (one row per case, template in the manual §9) and return the whole folder to <b>金照</b> — <code>jinzhao.zhang@centific.com</code> (email or IM; Jira/Confluence attachments also fine).</li>
           <li>Optional deep checks — install folder, shortcuts, uninstall residue — are in the manual §8. Do them last; uninstall removes the app.</li>
         </ul>
+        <div class="out"><div class="lbl">Evidence folder — complete looks like</div><pre><code>qa-test-&lt;yourname&gt;-&lt;YYYYMMDD&gt;\
+├─ transcript.txt
+├─ T0-selfcheck.png
+├─ T0-login-page-reachable.png
+├─ T1-hash-motw.png
+├─ T3-smartscreen-dialog.png
+├─ T3-run-anyway.png
+├─ T3-first-launch-signed-out.png
+├─ T4-logged-in-home.png
+├─ T5-about-version.png
+├─ T5-watermark.png          <span class="dim">(pilot only)</span>
+├─ T5-blocked-chatgpt.png
+├─ T5-open-baidu.png
+├─ T5-copy-ok.png            <span class="dim">(pilot only)</span>
+├─ T5-paste-blocked.png      <span class="dim">(pilot only)</span>
+└─ results.md
+<span class="dim">+ T5-tag-consent.png / T5-tag-direct-open.png (pilot only, if Tag flow run)
++ the update-check error shot (manual §7.6)
++ T2-snapshot.png (VM only)</span></code></pre></div>
       </li>
     </ol>
 
@@ -427,7 +527,7 @@ Start-Transcript -Path "$T\transcript.txt"</code></pre><button class="copy" type
     </section>
 
     <footer>
-      Source of truth: <code>docs/qa/TESTER-GUIDE-Win-0.1.6-20260929.md</code> (criteria &amp; exact commands) · derived view 2026-09-30 · pinned package <code>b00df328…</code> (0.1.6, commit <code>e91816d</code>)
+      Source of truth: <code>docs/qa/TESTER-GUIDE-Win-0.1.6-20260929.md</code> (criteria &amp; exact commands) · derived view 2026-10-01 · pinned package <code>b00df328…</code> (0.1.6, commit <code>e91816d</code>)
     </footer>
   </main>
 
