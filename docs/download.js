@@ -1,7 +1,9 @@
 (function () {
   var RELEASES_REPO = "centific-cn/OneformaClient-releases";
   var ALLOWED_PREFIX = "https://github.com/" + RELEASES_REPO + "/releases/download/";
-  var ENVS = ["prod", "qa", "preuat", "uat"];
+  // Public site serves prod only. QA/UAT testers use the internal entry points
+  // (qa-win-manual tag / private repo) instead of this page's channel selector.
+  var ENVS = ["prod"];
   var STORAGE_KEY = "oneforma-download-env";
 
   function normalizeEnv(value) {
@@ -10,8 +12,8 @@
   }
 
   // Precedence: ?env= URL param > localStorage > page default (fallbackDefault)
-  // > prod. windows.html passes defaultEnv "qa" — it is the unsigned-QA tester
-  // page; visitors landing there cold must not hit the empty prod channel.
+  // > prod. ENVS is prod-only, so stale localStorage values (e.g. "qa") and
+  // ?env=qa links normalize to prod — every visitor lands on the public feed.
   function getEnv(fallbackDefault) {
     var match = /[?&]env=([^&]+)/.exec(window.location.search);
     if (match) {
