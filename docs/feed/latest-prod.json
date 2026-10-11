@@ -1,0 +1,9 @@
+{
+  "updated_at": "2026-10-11T02:36:00Z",
+  "mac": {
+    "url": "https://github.com/centific-cn/OneformaClient-releases/releases/download/latest-prod/OneForma-modern-0.1.8.dmg"
+  },
+  "win": {
+    "url": "https://github.com/centific-cn/OneformaClient-releases/releases/download/latest-prod/OneForma-modern-0.1.8.exe"
+  }
+}

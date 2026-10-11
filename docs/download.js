@@ -86,7 +86,11 @@
     });
   }
 
-  function wireCard(platform, env) {
+  // Primary data source is the same-origin static feed (docs/feed/latest-prod.json,
+  // committed by the publish job) — api.github.com is anonymous 60 req/h per IP
+  // and chronically rate-limited on shared/CN egress, which silently left the
+  // buttons on their fallback tag-page href. The API below stays as fallback.
+  function wireCard(platform, env, feedAsset) {
     var card = document.querySelector('.system-download-card[data-platform="' + platform + '"]');
     if (!card) {
       return;
@@ -96,6 +100,7 @@
     var envEl = card.querySelector("[data-env-banner]");
     var tag = releaseTag(platform, env);
     var fallback = "https://github.com/" + RELEASES_REPO + "/releases/tag/" + tag;
+    var platformLabel = platform === "mac" ? "macOS 12+ · Universal" : "Windows 10/11 · 64-bit";
 
     if (platform === "windows" && WIN_PRIVATE_ENVS.indexOf(env) !== -1) {
       if (versionEl) {
@@ -122,7 +127,21 @@
       }
     }
 
-    var platformLabel = platform === "mac" ? "macOS 12+ · Universal" : "Windows 10/11 · 64-bit";
+    if (
+      feedAsset &&
+      feedAsset.url &&
+      feedAsset.url.indexOf(ALLOWED_PREFIX) === 0
+    ) {
+      if (versionEl) {
+        versionEl.textContent = (versionFromAssetName(feedAsset.url) || "") + " · " + platformLabel;
+      }
+      if (button) {
+        button.href = feedAsset.url;
+        button.removeAttribute("aria-disabled");
+      }
+      return;
+    }
+
     if (versionEl) {
       versionEl.textContent = "Loading… · " + platformLabel;
     }
@@ -134,6 +153,14 @@
     fetchRelease(platform, env)
       .then(function (data) {
         if (!data) {
+          // API unreachable (rate limit / network): say so instead of leaving
+          // the card on an eternal "Loading…" with a silent tag-page fallback.
+          if (versionEl) {
+            versionEl.textContent = "Can't check the version — use the button · " + platformLabel;
+          }
+          if (button) {
+            button.textContent = "VIEW RELEASES PAGE";
+          }
           return;
         }
         var ext = platform === "mac" ? ".dmg" : ".exe";
@@ -159,18 +186,33 @@
         }
       })
       .catch(function () {
+        if (versionEl) {
+          versionEl.textContent = "Can't check the version — use the button · " + platformLabel;
+        }
         if (button) {
+          button.textContent = "VIEW RELEASES PAGE";
           button.href = fallback;
         }
       });
   }
 
   function wireVisibleCards(env) {
-    ["mac", "windows"].forEach(function (platform) {
-      if (document.querySelector('.system-download-card[data-platform="' + platform + '"]')) {
-        wireCard(platform, env);
-      }
-    });
+    fetch("feed/latest-prod.json")
+      .then(function (res) {
+        return res.ok ? res.json() : null;
+      })
+      .catch(function () {
+        return null;
+      })
+      .then(function (feed) {
+        ["mac", "windows"].forEach(function (platform) {
+          if (!document.querySelector('.system-download-card[data-platform="' + platform + '"]')) {
+            return;
+          }
+          var feedAsset = feed && feed[platform === "mac" ? "mac" : "win"];
+          wireCard(platform, env, feedAsset || null);
+        });
+      });
   }
 
   function updateEnvSelectorUI(env) {
