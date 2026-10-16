@@ -1,8 +1,7 @@
 (function () {
   var RELEASES_REPO = "centific-cn/OneformaClient-releases";
   var ALLOWED_PREFIX = "https://github.com/" + RELEASES_REPO + "/releases/download/";
-  // Public site serves prod only. QA/UAT testers use the internal entry points
-  // (qa-win-manual tag / private repo) instead of this page's channel selector.
+  // Public site serves prod only. QA/UAT builds are the latest-<env> releases.
   var ENVS = ["prod"];
   var STORAGE_KEY = "oneforma-download-env";
 
@@ -42,13 +41,8 @@
   }
 
   // Tag contract (see docs/decisions/github-releases-sole-feed.md on the source
-  // repo): latest-* tags are the electron-updater feed and stay signed-only.
-  // Unsigned Windows QA builds live on the non-feed tag qa-win-manual; they are
-  // manual downloads and are never polled by the client.
-  function releaseTag(platform, env) {
-    if (platform === "windows" && env === "qa") {
-      return "qa-win-manual";
-    }
+  // repo): one latest-<env> release per environment, both platforms.
+  function releaseTag(env) {
     return "latest-" + env;
   }
 
@@ -62,8 +56,8 @@
     return match ? match[1] : "";
   }
 
-  function fetchRelease(platform, env) {
-    var tag = releaseTag(platform, env);
+  function fetchRelease(env) {
+    var tag = releaseTag(env);
     return fetch(
       "https://api.github.com/repos/" + RELEASES_REPO + "/releases/tags/" + tag,
       { headers: { Accept: "application/vnd.github+json" } }
@@ -98,7 +92,7 @@
     var button = card.querySelector("[data-download-button]");
     var versionEl = card.querySelector("[data-version-line]");
     var envEl = card.querySelector("[data-env-banner]");
-    var tag = releaseTag(platform, env);
+    var tag = releaseTag(env);
     var fallback = "https://github.com/" + RELEASES_REPO + "/releases/tag/" + tag;
     var platformLabel = platform === "mac" ? "macOS 12+ · Universal" : "Windows 10/11 · 64-bit";
 
@@ -150,7 +144,7 @@
       button.removeAttribute("aria-disabled");
     }
 
-    fetchRelease(platform, env)
+    fetchRelease(env)
       .then(function (data) {
         if (!data) {
           // API unreachable (rate limit / network): say so instead of leaving

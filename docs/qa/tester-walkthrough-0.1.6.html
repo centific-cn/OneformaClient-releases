@@ -318,11 +318,11 @@
         <h2>Download the package, get your account</h2>
         <label class="tick"><input type="checkbox" class="done"> Done</label>
         <ul>
-          <li><b>Download from the official page:</b> <code>https://download.oneforma.com/windows.html</code> — it opens on the QA channel and points at the public tag <code>qa-win-manual</code>. Save <code>OneForma-modern-0.1.6.exe</code> from there.</li>
+          <li><b>This page verifies only <code>OneForma-modern-0.1.6.exe</code>.</b> Step 3 is that file's hash. Current QA installers for both platforms are the <code>latest-qa</code> release. Do not install that release for this walkthrough, and do not substitute its digest into Step 3.</li>
           <li><b>Account:</b> self-applied — register at <code>https://ch-qa-web.oneforma2.com/center/login</code> and pick your own username and password. Then send the account name to the release owner: they add it to the <b>verification-code whitelist</b> and grant <b>pilot</b> permission. Release-owner accounts (e.g. <code>uat1</code>) are not distributed.</li>
           <li>One account per person. Do not log into it from a phone or second PC during the run — devices kick each other out (90020).</li>
         </ul>
-        <div class="callout warn"><b>One package only counts</b>A production-lookalike with the same file name and version exists. Never download by name from any other release or share — only use the official page above. Step 3 catches a wrong file.</div>
+        <div class="callout warn"><b>One package only counts</b>A production-lookalike with the same file name and version exists. This page counts only <code>OneForma-modern-0.1.6.exe</code>. Step 3 checks that file against the hash below. A newer build on <code>latest-qa</code> is a different package.</div>
       </li>
 
       <li class="card" id="s2">
@@ -353,7 +353,7 @@ C:\Users\you\AppData\Roaming\OneForma        => False
         <label class="tick"><input type="checkbox" class="done"> Done</label>
         <div class="cmd"><pre><code>(Get-FileHash "&lt;path-to-package&gt;\OneForma-modern-0.1.6.exe" -Algorithm SHA256).Hash -eq "F4C661FF71912E1AA4156537BC61AD6448EA1DEC2532EC66ED3C612A85F70351"</code></pre><button class="copy" type="button">Copy</button></div>
         <div class="out"><div class="lbl">Expected output</div><pre><code><span class="ok">True</span></code></pre></div>
-        <div class="callout warn"><b>One hash source only</b>The value in the command above is the sha256 pinned for the build this walkthrough announces (0.1.6, commit <code>baf22bd</code>, published 2026-10-04 — includes the watermark white-bg visibility fix). <code>qa-win-manual</code> is a rolling tag — CI replaces the exe on every QA build. If the release owner announces a newer build, take the sha256 from <b>that tag's release notes</b> and paste it into the command. Never compare against a hash from memory or another message.</div>
+        <div class="callout warn"><b>This hash is the 0.1.6 package</b>The command above checks the build this walkthrough was written for (0.1.6, commit <code>baf22bd</code>, published 2026-10-04 — includes the watermark white-bg visibility fix). It does not track later QA builds. Do not replace it with the digest from <code>latest-qa</code>.</div>
         <p class="note">The hash is the package's only identity. Screenshot: <code>T1-hash-motw.png</code></p>
         <div class="callout stop"><b>False → stop everything</b>A wrong file means the production lookalike or a tampered copy. Report to the release owner; do not install.</div>
       </li>
