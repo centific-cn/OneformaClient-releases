@@ -1,63 +1,16 @@
 (function () {
   var RELEASES_REPO = "centific-cn/OneformaClient-releases";
   var ALLOWED_PREFIX = "https://github.com/" + RELEASES_REPO + "/releases/download/";
-  // Public site serves prod only. QA/UAT builds are the latest-<env> releases.
-  var ENVS = ["prod"];
-  var STORAGE_KEY = "oneforma-download-env";
-
-  function normalizeEnv(value) {
-    var env = (value || "").toLowerCase();
-    return ENVS.indexOf(env) === -1 ? "prod" : env;
-  }
-
-  // Precedence: ?env= URL param > localStorage > page default (fallbackDefault)
-  // > prod. ENVS is prod-only, so stale localStorage values (e.g. "qa") and
-  // ?env=qa links normalize to prod — every visitor lands on the public feed.
-  function getEnv(fallbackDefault) {
-    var match = /[?&]env=([^&]+)/.exec(window.location.search);
-    if (match) {
-      var fromUrl = normalizeEnv(decodeURIComponent(match[1]));
-      try {
-        localStorage.setItem(STORAGE_KEY, fromUrl);
-      } catch (e) {}
-      return fromUrl;
-    }
-    try {
-      var stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        return normalizeEnv(stored);
-      }
-    } catch (e) {}
-    return normalizeEnv(fallbackDefault || "prod");
-  }
-
-  function setEnv(env) {
-    env = normalizeEnv(env);
-    try {
-      localStorage.setItem(STORAGE_KEY, env);
-    } catch (e) {}
-    updateEnvSelectorUI(env);
-    wireVisibleCards(env);
-  }
-
-  // Tag contract (see docs/decisions/github-releases-sole-feed.md on the source
-  // repo): one latest-<env> release per environment, both platforms.
-  function releaseTag(env) {
-    return "latest-" + env;
-  }
-
-  // Windows builds for these envs are distributed on the private source repo
-  // only, so the public site has nothing to serve — say so instead of linking
-  // a tag that will 404 for visitors.
-  var WIN_PRIVATE_ENVS = ["preuat", "uat"];
+  // This site serves the production release only. Other environments are GitHub Releases, not pages here.
+  var RELEASE_TAG = "latest-prod";
 
   function versionFromAssetName(name) {
     var match = /OneForma-modern-(.+)\.(dmg|exe)/i.exec(name || "");
     return match ? match[1] : "";
   }
 
-  function fetchRelease(env) {
-    var tag = releaseTag(env);
+  function fetchRelease() {
+    var tag = RELEASE_TAG;
     return fetch(
       "https://api.github.com/repos/" + RELEASES_REPO + "/releases/tags/" + tag,
       { headers: { Accept: "application/vnd.github+json" } }
@@ -84,42 +37,15 @@
   // committed by the publish job) — api.github.com is anonymous 60 req/h per IP
   // and chronically rate-limited on shared/CN egress, which silently left the
   // buttons on their fallback tag-page href. The API below stays as fallback.
-  function wireCard(platform, env, feedAsset) {
+  function wireCard(platform, feedAsset) {
     var card = document.querySelector('.system-download-card[data-platform="' + platform + '"]');
     if (!card) {
       return;
     }
     var button = card.querySelector("[data-download-button]");
     var versionEl = card.querySelector("[data-version-line]");
-    var envEl = card.querySelector("[data-env-banner]");
-    var tag = releaseTag(env);
-    var fallback = "https://github.com/" + RELEASES_REPO + "/releases/tag/" + tag;
+    var fallback = "https://github.com/" + RELEASES_REPO + "/releases/tag/" + RELEASE_TAG;
     var platformLabel = platform === "mac" ? "macOS 12+ · Universal" : "Windows 10/11 · 64-bit";
-
-    if (platform === "windows" && WIN_PRIVATE_ENVS.indexOf(env) !== -1) {
-      if (versionEl) {
-        versionEl.textContent = "Not published for Windows on this channel · " + platformLabel;
-      }
-      if (button) {
-        button.removeAttribute("href");
-        button.setAttribute("aria-disabled", "true");
-      }
-      if (envEl) {
-        envEl.textContent = env.toUpperCase() + " Windows builds are internal — ask the release owner";
-        envEl.classList.add("is-visible");
-      }
-      return;
-    }
-
-    if (envEl) {
-      if (env !== "prod") {
-        envEl.textContent = env.toUpperCase() + " build — for internal testing only";
-        envEl.classList.add("is-visible");
-      } else {
-        envEl.textContent = "";
-        envEl.classList.remove("is-visible");
-      }
-    }
 
     if (
       feedAsset &&
@@ -144,7 +70,7 @@
       button.removeAttribute("aria-disabled");
     }
 
-    fetchRelease(env)
+    fetchRelease()
       .then(function (data) {
         if (!data) {
           // API unreachable (rate limit / network): say so instead of leaving
@@ -190,8 +116,8 @@
       });
   }
 
-  function wireVisibleCards(env) {
-    fetch("feed/latest-prod.json")
+  function wireVisibleCards() {
+    fetch("feed/" + RELEASE_TAG + ".json")
       .then(function (res) {
         return res.ok ? res.json() : null;
       })
@@ -204,35 +130,9 @@
             return;
           }
           var feedAsset = feed && feed[platform === "mac" ? "mac" : "win"];
-          wireCard(platform, env, feedAsset || null);
+          wireCard(platform, feedAsset || null);
         });
       });
-  }
-
-  function updateEnvSelectorUI(env) {
-    document.querySelectorAll("[data-env-option]").forEach(function (btn) {
-      var active = btn.getAttribute("data-env-option") === env;
-      btn.classList.toggle("is-active", active);
-      btn.setAttribute("aria-pressed", active ? "true" : "false");
-    });
-  }
-
-  function initEnvSelector(defaultEnv) {
-    var root = document.querySelector("[data-env-selector]");
-    if (!root) {
-      return getEnv(defaultEnv);
-    }
-    var env = getEnv(defaultEnv);
-    root.querySelectorAll("[data-env-option]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var next = btn.getAttribute("data-env-option");
-        if (next) {
-          setEnv(next);
-        }
-      });
-    });
-    updateEnvSelectorUI(env);
-    return env;
   }
 
   function activateSetupGuide(platform) {
@@ -267,29 +167,16 @@
     activateSetupGuide(defaultPlatform || "mac");
   }
 
-  function wireBackHome() {
-    var link = document.querySelector(".back-home");
-    if (link) {
-      link.href = "index.html";
-    }
-  }
-
   function initPage(options) {
     options = options || {};
-    var env = initEnvSelector(options.defaultEnv);
-    wireVisibleCards(env);
+    wireVisibleCards();
     if (options.setupTab) {
       initSetupGuideTabs(options.setupTab);
     }
-    wireBackHome();
   }
 
   window.OneformaDownload = {
-    getEnv: getEnv,
-    setEnv: setEnv,
     wireCard: wireCard,
-    wireBackHome: wireBackHome,
-    initEnvSelector: initEnvSelector,
     initSetupGuideTabs: initSetupGuideTabs,
     activateSetupGuide: activateSetupGuide,
     initPage: initPage,
