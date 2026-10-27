@@ -1,0 +1,19 @@
+[
+  {
+    "version": "0.1.11",
+    "tag": "latest-prod",
+    "installers": [
+      {
+        "name": "OneForma-modern-0.1.11.exe",
+        "sha512": "lK1DOlrVDiTyuAusLkr6vPjQaM3KS7uEeWt6RwDVTWvL8cFYfzoSzZzdDZBZXtljsI1DM7um/AqyY/fg4UmS1g==",
+        "size": 76061416
+      }
+    ],
+    "subject": "CN=\"Centific Global Solutions, Inc.\", O=\"Centific Global Solutions, Inc.\", L=Redmond, S=Washington, C=US",
+    "signing_eku": "1.3.6.1.4.1.311.97.650851225.189350563.223906827.5290468",
+    "thumbprint": "BD5F85064B62907A573B835056C1281A8A46EAEE",
+    "timestamp_service": "CN=Microsoft Public RSA Time Stamping Authority, OU=nShield TSS ESN:7D00-05E0-D947, OU=Microsoft America Operations, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "cert_not_after": "2026-10-28T12:09:29.000Z",
+    "signed": true
+  }
+]
