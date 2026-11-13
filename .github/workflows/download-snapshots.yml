@@ -1,0 +1,38 @@
+name: Snapshot release downloads
+
+on:
+  schedule:
+    # 00:17 UTC, past the start-of-hour Actions rush. The row is dated that UTC
+    # morning. New is the change since the previous run, about one day.
+    - cron: "17 0 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: download-snapshots
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check snapshot logic
+        run: python3 scripts/snapshot_downloads.py --check
+
+      - name: Record download counts
+        run: python3 scripts/snapshot_downloads.py
+
+      - name: Commit snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stats/downloads.jsonl stats/summary.md
+          if git diff --cached --quiet; then
+            echo "Snapshot unchanged"
+            exit 0
+          fi
+          git commit -m "chore: snapshot release downloads for $(date -u +%F)"
+          git push
