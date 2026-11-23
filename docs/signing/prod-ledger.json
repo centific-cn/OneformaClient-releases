@@ -66,5 +66,22 @@
     "timestamp_service": "CN=Microsoft Public RSA Time Stamping Authority, OU=nShield TSS ESN:7800-05E0-D947, OU=Microsoft America Operations, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
     "cert_not_after": "2026-11-21T11:49:13.000Z",
     "signed": true
+  },
+  {
+    "version": "0.1.15",
+    "tag": "latest-prod",
+    "installers": [
+      {
+        "name": "OneForma-modern-0.1.15.exe",
+        "sha512": "PnNbzdajTsrcwWEh7ORh7ySa+E66nkP+GevTOgPI8zvBIZriHhtVymfIXtVPm39W0iQT9WgVJY0tUav4ZPCExQ==",
+        "size": 107572216
+      }
+    ],
+    "subject": "CN=\"Centific Global Solutions, Inc.\", O=\"Centific Global Solutions, Inc.\", L=Redmond, S=Washington, C=US",
+    "signing_eku": "1.3.6.1.4.1.311.97.650851225.189350563.223906827.5290468",
+    "thumbprint": "B3CF952E2652D84408380D913308CCF08BD618BC",
+    "timestamp_service": "CN=Microsoft Public RSA Time Stamping Authority, OU=nShield TSS ESN:A500-05E0-D947, OU=Microsoft America Operations, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "cert_not_after": "2026-11-24T11:43:00.000Z",
+    "signed": true
   }
 ]
