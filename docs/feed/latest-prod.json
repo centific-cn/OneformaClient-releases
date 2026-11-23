@@ -1,5 +1,9 @@
 {
-  "updated_at": "2026-11-19T18:07:09Z",
-  "mac": null,
-  "win": null
+  "updated_at": "2026-11-23T04:37:27Z",
+  "mac": {
+    "url": "https://github.com/centific-cn/OneformaClient-releases/releases/download/latest-prod/OneForma-modern-0.1.15.dmg"
+  },
+  "win": {
+    "url": "https://github.com/centific-cn/OneformaClient-releases/releases/download/latest-prod/OneForma-modern-0.1.15.exe"
+  }
 }
