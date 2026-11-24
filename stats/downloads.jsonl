@@ -54,3 +54,17 @@
 {"date":"2026-11-23","tag":"latest-qa","asset_id":770189197,"name":"OneForma-modern-qa-0.1.14.zip.blockmap","downloads":0,"delta":0,"prev_date":"2026-11-22","created_at":"2026-11-20T02:52:34Z"}
 {"date":"2026-11-23","tag":"latest-qa","asset_id":770189526,"name":"latest-mac.yml","downloads":0,"delta":0,"prev_date":"2026-11-22","created_at":"2026-11-20T02:52:42Z"}
 {"date":"2026-11-23","tag":"latest-qa","asset_id":770189525,"name":"latest-win.yml","downloads":61,"delta":0,"prev_date":"2026-11-22","created_at":"2026-11-20T02:52:42Z"}
+{"date":"2026-11-24","tag":"latest-prod","asset_id":781537986,"name":"OneForma-modern-0.1.15.dmg","downloads":1,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:37:07Z"}
+{"date":"2026-11-24","tag":"latest-prod","asset_id":781537987,"name":"OneForma-modern-0.1.15.exe","downloads":10,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:37:07Z"}
+{"date":"2026-11-24","tag":"latest-prod","asset_id":781537989,"name":"OneForma-modern-0.1.15.zip","downloads":16,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:37:07Z"}
+{"date":"2026-11-24","tag":"latest-prod","asset_id":781537991,"name":"OneForma-modern-0.1.15.exe.blockmap","downloads":9,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:37:07Z"}
+{"date":"2026-11-24","tag":"latest-prod","asset_id":781537990,"name":"OneForma-modern-0.1.15.zip.blockmap","downloads":11,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:37:07Z"}
+{"date":"2026-11-24","tag":"latest-prod","asset_id":781538382,"name":"latest-mac.yml","downloads":166,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:37:18Z"}
+{"date":"2026-11-24","tag":"latest-prod","asset_id":781538379,"name":"latest-win.yml","downloads":164,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:37:18Z"}
+{"date":"2026-11-24","tag":"latest-qa","asset_id":781473951,"name":"OneForma-modern-qa-0.1.15.dmg","downloads":0,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:09:54Z"}
+{"date":"2026-11-24","tag":"latest-qa","asset_id":781473948,"name":"OneForma-modern-qa-0.1.15.exe","downloads":1,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:09:54Z"}
+{"date":"2026-11-24","tag":"latest-qa","asset_id":781473952,"name":"OneForma-modern-qa-0.1.15.zip","downloads":0,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:09:54Z"}
+{"date":"2026-11-24","tag":"latest-qa","asset_id":781473953,"name":"OneForma-modern-qa-0.1.15.exe.blockmap","downloads":0,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:09:54Z"}
+{"date":"2026-11-24","tag":"latest-qa","asset_id":781473949,"name":"OneForma-modern-qa-0.1.15.zip.blockmap","downloads":0,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:09:54Z"}
+{"date":"2026-11-24","tag":"latest-qa","asset_id":781474498,"name":"latest-mac.yml","downloads":0,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:10:06Z"}
+{"date":"2026-11-24","tag":"latest-qa","asset_id":781474497,"name":"latest-win.yml","downloads":11,"delta":null,"prev_date":null,"created_at":"2026-11-23T04:10:06Z"}
