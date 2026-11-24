@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-11-23T04:37:27Z",
+  "updated_at": "2026-11-24T17:31:11Z",
   "mac": {
-    "url": "https://github.com/centific-cn/OneformaClient-releases/releases/download/latest-prod/OneForma-modern-0.1.15.dmg"
+    "url": "https://github.com/centific-cn/OneformaClient-releases/releases/download/latest-prod/OneForma-modern-0.1.16.dmg"
   },
   "win": {
-    "url": "https://github.com/centific-cn/OneformaClient-releases/releases/download/latest-prod/OneForma-modern-0.1.15.exe"
+    "url": "https://github.com/centific-cn/OneformaClient-releases/releases/download/latest-prod/OneForma-modern-0.1.16.exe"
   }
 }
